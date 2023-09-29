@@ -23,6 +23,7 @@ onMounted(async () => {
 <template>
   <header class="header-home">
     <nav>
+      <RouterLink to="/">Accueil</RouterLink>
       <RouterLink to="/movies">Movies</RouterLink>
       <RouterLink to="/actors">Series</RouterLink>
       <RouterLink to="/categories">Catégories</RouterLink>
