@@ -1,36 +1,46 @@
-<script setup></script>
+<script setup>
+import { onMounted, ref, toRaw } from "vue";
+import axios from "axios";
+import CategoryCard from "../components/CategoryCard.vue";
+
+let data = ref("");
+
+onMounted(async () => {
+  const response = await axios.get(
+    "http://localhost/s5/symfony-s5/public/index.php/api/categories?page=1",
+    {
+      headers: {
+        Accept: "application/json",
+      },
+    }
+  );
+  data.value = response.data;
+  console.log(toRaw(data.value));
+});
+</script>
 
 <template>
   <div class="titre"><h1>CATEGORIES</h1></div>
+  <div class="gallery">
+    <CategoryCard
+      v-for="category in data"
+      :key="category.id"
+      :category="category"
+    />
+  </div>
 </template>
 
 <style scoped lang="scss">
-.header-home {
-  background-color: #252525;
-  width: 100%;
-  height: 100px;
+.gallery {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  h1 {
-    color: #fff;
-  }
-  nav {
-    width: 100%;
-    height: 50px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    color: white;
-
-    a {
-      text-decoration: none;
-      color: #252525;
-      padding: 1em;
-      background-color: #fff;
-      border-radius: 5px;
-    }
-  }
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 2em auto;
+  gap: 2em;
+  padding: 2em;
+  max-width: 1200px; // Adaptez en fonction de la largeur désirée
+  background-color: #f4f4f4; // Une couleur de fond légère pour contraster avec les cartes
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 </style>
