@@ -18,6 +18,9 @@ defineProps({
         </p>
       </div>
     </div>
+    <RouterLink :to="{ name: 'movieDetails', params: { id: movie.id } }">
+      Voir la fiche
+    </RouterLink>
   </div>
 </template>
 
@@ -30,6 +33,11 @@ defineProps({
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   max-width: 350px;
   margin: 20px auto;
+
+  a {
+    text-decoration: none;
+    color: white;
+  }
 
   .infos {
     padding: 0 20px 20px;
