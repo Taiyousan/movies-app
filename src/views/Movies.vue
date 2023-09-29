@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <div class="titre"><h1>ACCUEIL</h1></div>
+  <div class="titre"><h1>FILMS</h1></div>
 </template>
 
 <style scoped lang="scss">
