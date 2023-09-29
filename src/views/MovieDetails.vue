@@ -22,7 +22,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <MovieCard :key="data.id" :movie="data" />
+  <MovieCard :key="data.id" :movie="data" :link="false" />
 </template>
 
 <style scoped lang="scss"></style>

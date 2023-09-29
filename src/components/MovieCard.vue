@@ -1,6 +1,10 @@
 <script setup>
 defineProps({
   movie: Object,
+  link: {
+    type: Boolean,
+    default: true,
+  },
 });
 </script>
 
@@ -18,7 +22,11 @@ defineProps({
         </p>
       </div>
     </div>
-    <RouterLink :to="{ name: 'movieDetails', params: { id: movie.id } }">
+    <RouterLink
+      :to="{ name: 'movieDetails', params: { id: movie.id } }"
+      v-if="link"
+      class="link"
+    >
       Voir la fiche
     </RouterLink>
   </div>
@@ -33,10 +41,24 @@ defineProps({
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   max-width: 350px;
   margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
-  a {
+  .link {
+    margin-top: 20px;
+    display: inline-block;
     text-decoration: none;
     color: white;
+    background-color: #f39c12;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: background-color 0.3s, transform 0.2s;
+
+    &:hover {
+      background-color: #e87c05;
+      transform: scale(1.05);
+    }
   }
 
   .infos {
@@ -62,7 +84,7 @@ defineProps({
     gap: 10px;
 
     .actor {
-      flex: 1 1 calc(50% - 10px); // Pour deux acteurs par ligne, adaptez selon le nombre souhaité
+      flex: 1 1 calc(50% - 10px);
     }
 
     p {
@@ -75,7 +97,7 @@ defineProps({
 
   .bold {
     font-weight: bold;
-    color: #f39c12; // couleur d'accent
+    color: #f39c12;
   }
 }
 </style>
