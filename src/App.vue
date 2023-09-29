@@ -25,7 +25,7 @@ onMounted(async () => {
     <nav>
       <RouterLink to="/">Accueil</RouterLink>
       <RouterLink to="/movies">Movies</RouterLink>
-      <RouterLink to="/actors">Series</RouterLink>
+      <RouterLink to="/actors">Actors</RouterLink>
       <RouterLink to="/categories">Catégories</RouterLink>
     </nav>
   </header>
