@@ -1,9 +1,9 @@
 <script setup>
 defineProps({
   movie: Object,
-  link: {
+  detailsPage: {
     type: Boolean,
-    default: true,
+    default: false,
   },
 });
 </script>
@@ -15,7 +15,7 @@ defineProps({
       <p><span class="bold">Synopsis : </span> {{ movie.description }}</p>
       <p><span class="bold">Date de sortie : </span>{{ movie.releaseDate }}</p>
     </div>
-    <div class="actors">
+    <div class="actors" v-if="!detailsPage">
       <div class="actor">
         <p v-for="actor in movie.actors">
           {{ actor.firstName + " " + actor.lastName }}
@@ -24,7 +24,7 @@ defineProps({
     </div>
     <RouterLink
       :to="{ name: 'movieDetails', params: { id: movie.id } }"
-      v-if="link"
+      v-if="!detailsPage"
       class="link"
     >
       Voir la fiche
