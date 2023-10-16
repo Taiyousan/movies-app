@@ -25,7 +25,12 @@ onMounted(async () => {
 <template>
   <MovieCard :key="data.id" :movie="data" :detailsPage="true" />
   <div class="gallery">
-    <ActorCard v-for="actor in data.actors" :key="actor.id" :actor="actor" />
+    <ActorCard
+      v-for="actor in data.actors"
+      :key="actor.id"
+      :actor="actor"
+      :detailsPage="true"
+    />
   </div>
 </template>
 

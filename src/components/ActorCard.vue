@@ -27,7 +27,6 @@ defineProps({
   overflow: hidden;
 
   .actor-header {
-    background-image: url("path-to-actor-image.jpg"); // Si vous avez une image pour l'acteur
     background-size: cover;
     background-position: center;
     height: 150px;
