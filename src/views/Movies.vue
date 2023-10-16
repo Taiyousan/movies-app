@@ -5,6 +5,7 @@ import MovieCard from "../components/MovieCard.vue";
 
 let data = ref("");
 let page = ref(1);
+let nextPageUrl = ref("");
 
 onMounted(async () => {
   await fetchData();
@@ -15,12 +16,25 @@ async function fetchData() {
     `http://localhost/s5/symfony-s5/public/index.php/api/movies?page=${page.value}`,
     {
       headers: {
-        Accept: "application/json",
+        Accept: "application/ld+json",
       },
     }
   );
-  data.value = response.data;
-  console.log(toRaw(data.value));
+  data.value = response.data["hydra:member"];
+  nextPageUrl.value =
+    "http://localhost" + response.data["hydra:view"]["hydra:next"];
+}
+
+async function nextPage() {
+  const response = await axios.get(nextPageUrl.value, {
+    headers: {
+      Accept: "application/ld+json",
+    },
+  });
+  data.value = response.data["hydra:member"];
+  nextPageUrl.value =
+    "http://localhost" + response.data["hydra:view"]["hydra:next"];
+  page.value = page.value + 1;
 }
 
 function changePage(pageNumber) {
@@ -33,6 +47,8 @@ function changePage(pageNumber) {
 <template>
   <div class="titre"><h1>FILMS</h1></div>
   <div class="pagination">
+    <!-- <div class="prev page" v-if="prevPageUrl" @click="prevPage">prev</div> -->
+
     <div
       class="page page1"
       @click="changePage(1)"
@@ -66,6 +82,7 @@ function changePage(pageNumber) {
     >
       3
     </div>
+    <div class="next page" v-if="nextPageUrl" @click="nextPage">NEXT</div>
   </div>
   <div class="gallery">
     <MovieCard v-for="movie in data" :key="movie.id" :movie="movie" />
