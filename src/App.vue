@@ -5,12 +5,17 @@ import { onMounted, ref, toRaw } from "vue";
 import axios from "axios";
 
 let data = ref("");
-const token = localStorage.getItem("token");
+let token = ref(localStorage.getItem("token"));
+
+// Methods
+function logout() {
+  localStorage.removeItem("token");
+}
 
 onMounted(async () => {
   const response = await axios.get("http://127.0.0.1:8000/api/movies?page=1", {
     headers: {
-      Accept: "application/json",
+      Accept: "application/ld+json",
       Authorization: `Bearer ${token}`,
     },
   });
@@ -25,7 +30,8 @@ onMounted(async () => {
       <RouterLink to="/movies">Movies</RouterLink>
       <RouterLink to="/actors">Actors</RouterLink>
       <RouterLink to="/categories">Catégories</RouterLink>
-      <RouterLink to="/login">Login</RouterLink>
+      <RouterLink to="/login" v-if="!token">Login</RouterLink>
+      <div class="logout" v-else @click="logout()">Lougout</div>
     </nav>
   </header>
   <RouterView />
@@ -51,12 +57,14 @@ onMounted(async () => {
     align-items: center;
     color: white;
 
-    a {
+    a,
+    .logout {
       text-decoration: none;
       color: #252525;
       padding: 1em;
       background-color: #fff;
       border-radius: 5px;
+      cursor: pointer;
     }
   }
 }

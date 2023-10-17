@@ -7,7 +7,7 @@ let data = ref("");
 let page = ref(1);
 let nextPageUrl = ref("");
 let pagesTotal = ref(0);
-const token = localStorage.getItem("token");
+let token = localStorage.getItem("token");
 
 onMounted(() => {
   fetchData();
