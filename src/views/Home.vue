@@ -7,6 +7,7 @@ import ActorCard from "../components/ActorCard.vue";
 let data = ref("");
 let randomMovies = ref("");
 let randomActors = ref(""); // Nouvelle référence pour le deuxième appel API
+let token = localStorage.getItem("token");
 
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -18,14 +19,15 @@ function shuffleArray(array) {
 async function fetchData() {
   try {
     const response = await axios.get(
-      "http://localhost/s5/symfony-s5/public/index.php/api/movies?page=1",
+      "http://127.0.0.1:8000/api/movies?page=1",
       {
         headers: {
-          Accept: "application/json",
+          Accept: "application/ld+json",
+          Authorization: `Bearer ${token}`,
         },
       }
     );
-    data.value = response.data;
+    data.value = response.data["hydra:member"];
 
     shuffleArray(data.value);
     randomMovies.value = data.value.slice(0, 4);
@@ -38,14 +40,15 @@ async function fetchrandomActors() {
   // Fonction pour le deuxième appel API
   try {
     const response = await axios.get(
-      "http://localhost/s5/symfony-s5/public/index.php/api/actors?page=1",
+      "http://127.0.0.1:8000/api/actors?page=1",
       {
         headers: {
-          Accept: "application/json",
+          Accept: "application/ld+json",
+          Authorization: `Bearer ${token}`,
         },
       }
     );
-    randomActors.value = response.data;
+    randomActors.value = response.data["hydra:member"];
     shuffleArray(randomActors.value);
     randomActors.value = randomActors.value.slice(0, 4);
   } catch (error) {
