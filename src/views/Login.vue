@@ -14,8 +14,6 @@ const submitForm = () => {
     })
     .then((response) => {
       localStorage.setItem("token", response.data.token);
-      console.log(response.data.token);
-      console.log(localStorage.getItem("token"));
       location.reload();
     })
     .catch((error) => {

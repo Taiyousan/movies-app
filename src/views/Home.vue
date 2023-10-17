@@ -17,22 +17,26 @@ function shuffleArray(array) {
 }
 
 async function fetchData() {
-  try {
-    const response = await axios.get(
-      "http://127.0.0.1:8000/api/movies?page=1",
-      {
-        headers: {
-          Accept: "application/ld+json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    data.value = response.data["hydra:member"];
+  if (token) {
+    try {
+      const response = await axios.get(
+        "http://127.0.0.1:8000/api/movies?page=1",
+        {
+          headers: {
+            Accept: "application/ld+json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      data.value = response.data["hydra:member"];
 
-    shuffleArray(data.value);
-    randomMovies.value = data.value.slice(0, 4);
-  } catch (error) {
-    console.error("Erreur lors de la récupération des films:", error);
+      shuffleArray(data.value);
+      randomMovies.value = data.value.slice(0, 4);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des films:", error);
+    }
+  } else {
+    window.location.href = "/login";
   }
 }
 
