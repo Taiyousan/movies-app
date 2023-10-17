@@ -5,7 +5,6 @@ import axios from "axios";
 const username = ref("");
 const password = ref("");
 let token = ref(localStorage.getItem("token"));
-const isLoggedIn = ref(false);
 
 const submitForm = () => {
   axios
@@ -17,7 +16,6 @@ const submitForm = () => {
       localStorage.setItem("token", response.data.token);
       console.log(response.data.token);
       console.log(localStorage.getItem("token"));
-      isLoggedIn.value = true;
       location.reload();
     })
     .catch((error) => {
@@ -38,7 +36,7 @@ const submitForm = () => {
     </form>
   </div>
   <div v-else>
-    <div v-if="isLoggedIn" class="message">Vous êtes connecté !</div>
+    <div v-if="token" class="message">Vous êtes connecté !</div>
   </div>
 </template>
 
