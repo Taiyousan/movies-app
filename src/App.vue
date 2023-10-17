@@ -1,26 +1,28 @@
 <script setup>
 // Imports
 import { RouterLink, RouterView } from "vue-router";
-import { onMounted, ref, toRaw } from "vue";
+import { onMounted, ref, toRaw, computed } from "vue";
 import axios from "axios";
 
 let data = ref("");
-let token = ref(localStorage.getItem("token"));
+let token = computed(() => localStorage.getItem("token"));
 
 // Methods
 function logout() {
+  console.log("logout");
+  location.reload();
   localStorage.removeItem("token");
 }
 
-onMounted(async () => {
-  const response = await axios.get("http://127.0.0.1:8000/api/movies?page=1", {
-    headers: {
-      Accept: "application/ld+json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  data.value = response.data;
-});
+// onMounted(async () => {
+//   const response = await axios.get("http://127.0.0.1:8000/api/movies?page=1", {
+//     headers: {
+//       Accept: "application/ld+json",
+//       Authorization: `Bearer ${token}`,
+//     },
+//   });
+//   data.value = response.data;
+// });
 </script>
 
 <template>

@@ -18,6 +18,7 @@ const submitForm = () => {
       console.log(response.data.token);
       console.log(localStorage.getItem("token"));
       isLoggedIn.value = true;
+      location.reload();
     })
     .catch((error) => {
       console.log(error);
