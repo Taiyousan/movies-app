@@ -5,18 +5,16 @@ import { onMounted, ref, toRaw } from "vue";
 import axios from "axios";
 
 let data = ref("");
+const token = localStorage.getItem("token");
 
 onMounted(async () => {
-  const response = await axios.get(
-    "http://localhost/s5/symfony-s5/public/index.php/api/movies?page=1",
-    {
-      headers: {
-        Accept: "application/json",
-      },
-    }
-  );
+  const response = await axios.get("http://127.0.0.1:8000/api/movies?page=1", {
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
   data.value = response.data;
-  console.log(toRaw(data.value));
 });
 </script>
 

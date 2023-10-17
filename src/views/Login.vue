@@ -2,14 +2,19 @@
 import { onMounted, ref, toRaw } from "vue";
 import axios from "axios";
 
-const email = ref("");
+const username = ref("");
 const password = ref("");
 
 const submitForm = () => {
   axios
-    .post("/api/login", { email: email.value, password: password.value })
+    .post("http://127.0.0.1/api/login_check", {
+      username: username.value,
+      password: password.value,
+    })
     .then((response) => {
-      console.log(response.data);
+      localStorage.setItem("token", response.data.token);
+      console.log(response.data.token);
+      console.log(localStorage.getItem("token"));
     })
     .catch((error) => {
       console.log(error);
@@ -21,7 +26,7 @@ const submitForm = () => {
   <h1>LOGIN</h1>
   <form @submit.prevent="submitForm">
     <label for="username">Username:</label>
-    <input type="email" id="email" v-model="email" required />
+    <input type="username" id="username" v-model="username" required />
     <label for="password">Password:</label>
     <input type="password" id="password" v-model="password" required />
     <button type="submit">Submit</button>
