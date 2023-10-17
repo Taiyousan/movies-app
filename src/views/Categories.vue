@@ -4,18 +4,19 @@ import axios from "axios";
 import CategoryCard from "../components/CategoryCard.vue";
 
 let data = ref("");
+let token = ref(localStorage.getItem("token"));
 
 onMounted(async () => {
   const response = await axios.get(
-    "http://localhost/s5/symfony-s5/public/index.php/api/categories?page=1",
+    "http://127.0.0.1:8000/api/categories?page=1",
     {
       headers: {
-        Accept: "application/json",
+        Accept: "application/ld+json",
+        Authorization: `Bearer ${token}`,
       },
     }
   );
-  data.value = response.data;
-  console.log(toRaw(data.value));
+  data.value = response.data["hydra:member"];
 });
 </script>
 

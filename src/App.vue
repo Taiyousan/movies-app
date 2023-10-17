@@ -1,17 +1,18 @@
 <script setup>
 // Imports
-import { RouterLink, RouterView } from "vue-router";
+import { RouterLink, RouterView, useRoute, useRouter } from "vue-router";
 import { onMounted, ref, toRaw, computed } from "vue";
 import axios from "axios";
 
 let data = ref("");
 let token = computed(() => localStorage.getItem("token"));
+const router = useRouter();
 
 // Methods
 function logout() {
   console.log("logout");
-  location.reload();
   localStorage.removeItem("token");
+  window.location.href = "/login";
 }
 
 // onMounted(async () => {
