@@ -4,17 +4,16 @@ import axios from "axios";
 import ActorCard from "../components/ActorCard.vue";
 
 let data = ref("");
+let token = localStorage.getItem("token");
 
 onMounted(async () => {
-  const response = await axios.get(
-    "http://localhost/s5/symfony-s5/public/index.php/api/actors?page=1",
-    {
-      headers: {
-        Accept: "application/json",
-      },
-    }
-  );
-  data.value = response.data;
+  const response = await axios.get("http://127.0.0.1:8000/api/actors?page=1", {
+    headers: {
+      Accept: "application/ld+json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  data.value = response.data["hydra:member"];
   console.log(toRaw(data.value));
 });
 </script>
