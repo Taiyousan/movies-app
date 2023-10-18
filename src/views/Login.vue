@@ -2,14 +2,19 @@
 import { onMounted, ref, toRaw } from "vue";
 import axios from "axios";
 
-const email = ref("");
+const username = ref("");
 const password = ref("");
+let token = ref(localStorage.getItem("token"));
 
 const submitForm = () => {
   axios
-    .post("/api/login", { email: email.value, password: password.value })
+    .post("http://127.0.0.1:8000/api/login_check", {
+      username: username.value,
+      password: password.value,
+    })
     .then((response) => {
-      console.log(response.data);
+      localStorage.setItem("token", response.data.token);
+      location.reload();
     })
     .catch((error) => {
       console.log(error);
@@ -18,14 +23,19 @@ const submitForm = () => {
 </script>
 
 <template>
-  <h1>LOGIN</h1>
-  <form @submit.prevent="submitForm">
-    <label for="username">Username:</label>
-    <input type="email" id="email" v-model="email" required />
-    <label for="password">Password:</label>
-    <input type="password" id="password" v-model="password" required />
-    <button type="submit">Submit</button>
-  </form>
+  <div v-if="!token">
+    <h1>LOGIN</h1>
+    <form @submit.prevent="submitForm">
+      <label for="username">Username:</label>
+      <input type="username" id="username" v-model="username" required />
+      <label for="password">Password:</label>
+      <input type="password" id="password" v-model="password" required />
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+  <div v-else>
+    <div v-if="token" class="message">Vous êtes connecté !</div>
+  </div>
 </template>
 
 <style scoped lang="scss">
@@ -58,5 +68,13 @@ button {
   color: white;
   font-size: 1.2rem;
   cursor: pointer;
+}
+
+.message {
+  background-color: #4caf50;
+  color: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin: 2rem;
 }
 </style>
