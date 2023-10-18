@@ -12,7 +12,7 @@ onMounted(async () => {
     {
       headers: {
         Accept: "application/ld+json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token.value}`,
       },
     }
   );
