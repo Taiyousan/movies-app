@@ -11,6 +11,7 @@ const emit = defineEmits();
 const token = defineProps(["token"]);
 
 function handleSearch() {
+  emit("isSearchLoaded", false);
   let config = {
     method: "get",
     maxBodyLength: Infinity,
@@ -27,6 +28,7 @@ function handleSearch() {
       searchResults.value = response.data["hydra:member"];
 
       emit("search-event", searchResults.value);
+      emit("isSearchLoaded", true);
     })
     .catch((error) => {
       console.log(error);

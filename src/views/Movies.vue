@@ -3,6 +3,7 @@ import { onMounted, ref, computed, toRaw } from "vue";
 import axios from "axios";
 import MovieCard from "../components/MovieCard.vue";
 import SearchBar from "../components/SearchBar.vue";
+import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 
 let data = ref("");
 let completeData = ref("");
@@ -10,6 +11,7 @@ let page = ref(1);
 let nextPageUrl = ref("");
 let pagesTotal = ref(0);
 let isNoResults = ref(false);
+let isLoaded = ref(false);
 let token = localStorage.getItem("token");
 const isModalEdit = ref(false);
 let currentEditingMovie = ref("");
@@ -26,6 +28,7 @@ onMounted(() => {
 async function fetchData(
   url = `http://127.0.0.1:8000/api/movies?page=${page.value}`
 ) {
+  isLoaded.value = false;
   const response = await axios.get(url, {
     headers: {
       Accept: "application/ld+json",
@@ -37,6 +40,7 @@ async function fetchData(
   nextPageUrl.value =
     "http://127.0.0.1:8000" + response.data["hydra:view"]["hydra:next"];
   pagesTotal.value = response.data["hydra:view"]["hydra:last"].split("=")[1];
+  isLoaded.value = true;
 }
 
 // EDIT MOVIE
@@ -113,6 +117,10 @@ const handleEditEvent = (data) => {
   }
   currentEditingMovie.value = data;
 };
+
+function handleSearchLoader(isSearchLoaded) {
+  isLoaded.value = isSearchLoaded;
+}
 </script>
 
 <template>
@@ -156,7 +164,11 @@ const handleEditEvent = (data) => {
   <div class="titre">
     <h1>FILMS</h1>
 
-    <SearchBar @search-event="handleSearchEvent" :token="token" />
+    <SearchBar
+      @search-event="handleSearchEvent"
+      @isSearchLoaded="handleSearchLoader"
+      :token="token"
+    />
   </div>
   <div class="pagination">
     <div class="prev page" @click="changePage(page - 1)" v-if="page !== 1">
@@ -179,7 +191,7 @@ const handleEditEvent = (data) => {
       NEXT
     </div>
   </div>
-  <div class="gallery" v-if="!isNoResults">
+  <div class="gallery" v-if="!isNoResults && isLoaded">
     <MovieCard
       v-for="movie in data"
       :key="movie.id"
@@ -187,8 +199,11 @@ const handleEditEvent = (data) => {
       @edit-event="handleEditEvent"
     />
   </div>
-  <div class="gallery" v-if="isNoResults">
+  <div class="gallery" v-if="isNoResults && isLoaded">
     <p>Aucun résultat !</p>
+  </div>
+  <div class="loader-container" v-if="!isLoaded">
+    <pulse-loader :loading="loading" color="orange" :size="size"></pulse-loader>
   </div>
 </template>
 
@@ -291,5 +306,13 @@ const handleEditEvent = (data) => {
       }
     }
   }
+}
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30vh;
+  width: 100%;
 }
 </style>
