@@ -4,6 +4,7 @@ import axios from "axios";
 import MovieCard from "../components/MovieCard.vue";
 import SearchBar from "../components/SearchBar.vue";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
+import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/vue/24/solid";
 
 let data = ref("");
 let completeData = ref("");
@@ -29,18 +30,28 @@ async function fetchData(
   url = `http://127.0.0.1:8000/api/movies?page=${page.value}`
 ) {
   isLoaded.value = false;
-  const response = await axios.get(url, {
-    headers: {
-      Accept: "application/ld+json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  data.value = response.data["hydra:member"];
-  completeData.value = response.data["hydra:member"];
-  nextPageUrl.value =
-    "http://127.0.0.1:8000" + response.data["hydra:view"]["hydra:next"];
-  pagesTotal.value = response.data["hydra:view"]["hydra:last"].split("=")[1];
-  isLoaded.value = true;
+  try {
+    const response = await axios.get(url, {
+      headers: {
+        Accept: "application/ld+json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    data.value = response.data["hydra:member"];
+    completeData.value = response.data["hydra:member"];
+    nextPageUrl.value =
+      "http://127.0.0.1:8000" + response.data["hydra:view"]["hydra:next"];
+    pagesTotal.value = response.data["hydra:view"]["hydra:last"].split("=")[1];
+    isLoaded.value = true;
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      console.log("Erreur 401: Unauthorized");
+      // Gérer l'erreur 401 ici, peut-être rediriger l'utilisateur vers une page de connexion
+    } else {
+      console.error(error);
+      // Gérer les autres erreurs ici
+    }
+  }
 }
 
 // EDIT MOVIE
@@ -172,7 +183,7 @@ function handleSearchLoader(isSearchLoaded) {
   </div>
   <div class="pagination">
     <div class="prev page" @click="changePage(page - 1)" v-if="page !== 1">
-      PREV
+      <arrow-left-icon class="icon" />
     </div>
     <div
       v-for="i in parseInt(pagesTotal)"
@@ -188,7 +199,7 @@ function handleSearchLoader(isSearchLoaded) {
       v-if="nextPageUrl && page !== parseInt(pagesTotal)"
       @click="changePage(page + 1)"
     >
-      NEXT
+      <arrow-right-icon class="icon" />
     </div>
   </div>
   <div class="gallery" v-if="!isNoResults && isLoaded">
@@ -208,6 +219,10 @@ function handleSearchLoader(isSearchLoaded) {
 </template>
 
 <style scoped lang="scss">
+.icon {
+  color: #ffffff;
+  width: 1.3em;
+}
 .gallery {
   display: flex;
   flex-wrap: wrap;
