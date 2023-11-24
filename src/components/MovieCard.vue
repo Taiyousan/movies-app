@@ -1,11 +1,18 @@
 <script setup>
-defineProps({
-  movie: Object,
-  detailsPage: {
-    type: Boolean,
-    default: false,
-  },
-});
+// Importez defineProps et defineEmits depuis 'vue'
+import { defineProps, defineEmits } from "vue";
+
+// Définissez les propriétés reçues de la Card
+const { movie, detailsPage } = defineProps(["movie", "detailsPage"]);
+
+// Définissez les événements que vous prévoyez d'émettre
+const emit = defineEmits();
+
+// Ajoutez la méthode qui émet l'événement personnalisé
+const triggerEvent = (data) => {
+  // Émettre l'événement vers le parent avec les données spécifiées
+  emit("edit-event", data);
+};
 </script>
 
 <template>
@@ -14,6 +21,7 @@ defineProps({
       <h2>{{ movie.title }}</h2>
       <p><span class="bold">Synopsis : </span> {{ movie.description }}</p>
       <p><span class="bold">Date de sortie : </span>{{ movie.releaseDate }}</p>
+      <p><span class="bold">Durée (en minutes) : </span>{{ movie.duration }}</p>
     </div>
     <div class="actors" v-if="!detailsPage">
       <div class="actor">
@@ -29,6 +37,7 @@ defineProps({
     >
       Voir la fiche
     </RouterLink>
+    <div class="link green" @click="triggerEvent(movie)">Modifier</div>
   </div>
 </template>
 
@@ -59,6 +68,10 @@ defineProps({
       background-color: #e87c05;
       transform: scale(1.05);
     }
+  }
+
+  .green {
+    background-color: #4caf50;
   }
 
   .infos {
