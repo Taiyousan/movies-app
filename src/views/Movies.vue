@@ -2,11 +2,14 @@
 import { onMounted, ref, computed, toRaw } from "vue";
 import axios from "axios";
 import MovieCard from "../components/MovieCard.vue";
+import SearchBar from "../components/SearchBar.vue";
 
 let data = ref("");
+let completeData = ref("");
 let page = ref(1);
 let nextPageUrl = ref("");
 let pagesTotal = ref(0);
+let isNoResults = ref(false);
 let token = localStorage.getItem("token");
 const isModalEdit = ref(false);
 let currentEditingMovie = ref("");
@@ -30,6 +33,7 @@ async function fetchData(
     },
   });
   data.value = response.data["hydra:member"];
+  completeData.value = response.data["hydra:member"];
   nextPageUrl.value =
     "http://127.0.0.1:8000" + response.data["hydra:view"]["hydra:next"];
   pagesTotal.value = response.data["hydra:view"]["hydra:last"].split("=")[1];
@@ -91,6 +95,16 @@ function changePage(pageNumber) {
   fetchData();
 }
 
+function handleSearchEvent(searchResults) {
+  if (searchResults.length === 0) {
+    isNoResults.value = true;
+  } else {
+    isNoResults.value = false;
+  }
+
+  data.value = searchResults;
+}
+
 const handleEditEvent = (data) => {
   if (isModalEdit.value === false) {
     isModalEdit.value = true;
@@ -98,7 +112,6 @@ const handleEditEvent = (data) => {
     isModalEdit.value = false;
   }
   currentEditingMovie.value = data;
-  console.log(toRaw(currentEditingMovie.value));
 };
 </script>
 
@@ -142,6 +155,8 @@ const handleEditEvent = (data) => {
   </div>
   <div class="titre">
     <h1>FILMS</h1>
+
+    <SearchBar @search-event="handleSearchEvent" :token="token" />
   </div>
   <div class="pagination">
     <div class="prev page" @click="changePage(page - 1)" v-if="page !== 1">
@@ -164,13 +179,16 @@ const handleEditEvent = (data) => {
       NEXT
     </div>
   </div>
-  <div class="gallery">
+  <div class="gallery" v-if="!isNoResults">
     <MovieCard
       v-for="movie in data"
       :key="movie.id"
       :movie="movie"
       @edit-event="handleEditEvent"
     />
+  </div>
+  <div class="gallery" v-if="isNoResults">
+    <p>Aucun résultat !</p>
   </div>
 </template>
 
