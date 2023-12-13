@@ -4,6 +4,7 @@ import axios from "axios";
 import MovieCard from "../components/MovieCard.vue";
 import SearchBar from "../components/SearchBar.vue";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
+import EditForm from "../components/EditForm.vue";
 
 let data = ref("");
 let completeData = ref("");
@@ -124,7 +125,11 @@ function handleSearchLoader(isSearchLoaded) {
 </script>
 
 <template>
-  <div class="modal-edit" v-if="isModalEdit">
+  <EditForm
+    v-if="isModalEdit"
+    :currentEditingMovie="currentEditingMovie"
+    />
+  <!-- <div class="modal-edit" v-if="isModalEdit">
     <p>
       Vous modifiez le film suivant :
       <span class="edit-title">{{ currentEditingMovie.title }}</span>
@@ -160,7 +165,7 @@ function handleSearchLoader(isSearchLoaded) {
 
       <button type="submit">Submit</button>
     </form>
-  </div>
+  </div> -->
   <div class="titre">
     <h1>FILMS</h1>
 
