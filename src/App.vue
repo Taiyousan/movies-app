@@ -38,7 +38,9 @@ function logout() {
       <div class="logout" v-else @click="logout()"><span>Lougout</span></div>
     </nav>
   </header>
-  <RouterView />
+  <div class="main">
+    <RouterView />
+  </div>
 </template>
 
 <style scoped lang="scss">
@@ -103,5 +105,13 @@ function logout() {
       }
     }
   }
+}
+
+.main {
+  margin-left: 10em;
+  width: calc(100% - 10em);
+  height: 100vh;
+  background-color: #f5f5f5;
+  padding: 1em;
 }
 </style>

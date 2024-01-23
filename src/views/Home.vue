@@ -70,13 +70,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="titre"><h1>ACCUEIL</h1></div>
   <div class="gallery">
-    <MovieCard
-      v-for="(movie, index) in randomMovies"
-      :key="'movie' + index"
-      :movie="movie"
-    />
+    <MovieCard v-for="(movie, index) in randomMovies" :key="'movie' + index" :movie="movie" />
     <ActorCard v-for="actor in randomActors" :key="actor.id" :actor="actor" />
   </div>
 </template>
@@ -90,9 +85,11 @@ onMounted(async () => {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+
   h1 {
     color: #fff;
   }
+
   nav {
     width: 100%;
     height: 50px;
@@ -110,6 +107,7 @@ onMounted(async () => {
     }
   }
 }
+
 .gallery {
   display: flex;
   flex-wrap: wrap;
