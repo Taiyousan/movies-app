@@ -19,6 +19,7 @@ const triggerEvent = (data) => {
   <div class="movie-card">
     <div class="infos">
       <h2>{{ movie.title }}</h2>
+      <img src="img/tenet.jpg" alt="">
       <p><span class="bold">Synopsis : </span> {{ movie.description }}</p>
       <p><span class="bold">Date de sortie : </span>{{ movie.releaseDate }}</p>
       <p><span class="bold">Durée (en minutes) : </span>{{ movie.duration }}</p>
@@ -30,11 +31,7 @@ const triggerEvent = (data) => {
         </p>
       </div>
     </div>
-    <RouterLink
-      :to="{ name: 'movieDetails', params: { id: movie.id } }"
-      v-if="!detailsPage"
-      class="link"
-    >
+    <RouterLink :to="{ name: 'movieDetails', params: { id: movie.id } }" v-if="!detailsPage" class="link">
       Voir la fiche
     </RouterLink>
     <div class="link green" @click="triggerEvent(movie)">Modifier</div>
@@ -87,6 +84,13 @@ const triggerEvent = (data) => {
       margin: 10px 0;
       font-size: 0.9em;
       line-height: 1.4;
+    }
+
+    img {
+      margin-top: 1em;
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
   }
 

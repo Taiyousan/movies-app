@@ -28,13 +28,14 @@ function logout() {
 
 <template>
   <header class="header-home">
+    <div class="logo-container"><img src="img/logo.svg" alt=""></div>
     <nav>
-      <RouterLink to="/">Accueil</RouterLink>
-      <RouterLink to="/movies">Movies</RouterLink>
-      <RouterLink to="/actors">Actors</RouterLink>
-      <RouterLink to="/categories">Catégories</RouterLink>
-      <RouterLink to="/login" v-if="!token">Login</RouterLink>
-      <div class="logout" v-else @click="logout()">Lougout</div>
+      <RouterLink to="/"><span>Accueil</span></RouterLink>
+      <RouterLink to="/movies"><span>Films</span></RouterLink>
+      <RouterLink to="/actors"><span>Acteurs</span></RouterLink>
+      <RouterLink to="/categories"><span>Catégories</span></RouterLink>
+      <RouterLink to="/login" v-if="!token"><span>Login</span></RouterLink>
+      <div class="logout" v-else @click="logout()"><span>Lougout</span></div>
     </nav>
   </header>
   <RouterView />
@@ -42,32 +43,64 @@ function logout() {
 
 <style scoped lang="scss">
 .header-home {
-  background-color: #252525;
-  width: 100%;
-  height: 100px;
-  display: flex;
+  width: fit-content;
+  position: fixed;
+  height: 100vh;
+  // display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  h1 {
-    color: #fff;
-  }
-  nav {
+  background-color: #252525;
+
+  .logo-container {
     width: 100%;
-    height: 50px;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
-    color: white;
+    margin-top: 1em;
+
+    img {
+      width: 20%;
+    }
+  }
+
+  nav {
+    // background-color: rgba(65, 64, 64, 0.95);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 80%;
+    width: 10em;
+    margin: 1em;
+    border-radius: 5px;
+    padding: 0.5em;
+
 
     a,
     .logout {
+      font-size: .8em;
+      font-weight: bold;
       text-decoration: none;
       color: #252525;
       padding: 1em;
       background-color: #fff;
-      border-radius: 5px;
+      border-radius: 25px;
       cursor: pointer;
+      transition: all .2s ease-in-out;
+
+      span {
+        transition: all .2s ease-in-out;
+      }
+
+      &:hover {
+        background-color: #252525;
+        color: #fff;
+
+        span {
+          display: block;
+          transform: translateX(20%);
+        }
+      }
     }
   }
 }
