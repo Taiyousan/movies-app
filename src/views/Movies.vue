@@ -4,6 +4,7 @@ import axios from "axios";
 import MovieCard from "../components/MovieCard.vue";
 import SearchBar from "../components/SearchBar.vue";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
+import EditForm from "../components/EditForm.vue";
 
 let data = ref("");
 let completeData = ref("");
@@ -15,11 +16,7 @@ let isLoaded = ref(false);
 let token = localStorage.getItem("token");
 const isModalEdit = ref(false);
 let currentEditingMovie = ref("");
-let editedMovie = ref({
-  title: "",
-  description: "",
-  duration: "",
-});
+
 onMounted(() => {
   fetchData();
 });
@@ -43,56 +40,6 @@ async function fetchData(
   isLoaded.value = true;
 }
 
-// EDIT MOVIE
-async function editMovie() {
-  try {
-    // TOKEN
-    // const token = localStorage.getItem("token");
-    // if (!token) {
-    //   this.$router.push("/");
-    //   return;
-    // }
-
-    // HEADERS
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/merge-patch+json",
-    };
-
-    const updatedMovie = {
-      title: editedMovie.value.title
-        ? editedMovie.value.title
-        : currentEditingMovie.value.title,
-      description: editedMovie.value.description
-        ? editedMovie.value.description
-        : currentEditingMovie.value.description,
-      duration:
-        editedMovie.value.duration !== ""
-          ? parseInt(editedMovie.value.duration)
-          : parseInt(currentEditingMovie.value.duration),
-    };
-
-    // REQUEST
-    await axios.patch(
-      `http://127.0.0.1:8000/api/movies/${currentEditingMovie.value.id}`,
-      updatedMovie,
-      { headers }
-    );
-
-    // Recharger les données, fermer le modal, et réinitialiser les valeurs
-    fetchData();
-    isModalEdit.value = false;
-    editedMovie.value = {
-      title: "",
-      description: "",
-      duration: "",
-    };
-  } catch (error) {
-    console.log(error.response.data); // Affichez les détails de l'erreur du serveur
-    console.log(error.response.status);
-    console.log(error.response.headers);
-  }
-}
 
 function changePage(pageNumber) {
   page.value = pageNumber;
@@ -121,46 +68,20 @@ const handleEditEvent = (data) => {
 function handleSearchLoader(isSearchLoaded) {
   isLoaded.value = isSearchLoaded;
 }
+
+function handleIsModalEdit(bool) {
+  isModalEdit.value = bool;
+}
 </script>
 
 <template>
-  <div class="modal-edit" v-if="isModalEdit">
-    <p>
-      Vous modifiez le film suivant :
-      <span class="edit-title">{{ currentEditingMovie.title }}</span>
-    </p>
-    <form class="form" @submit.prevent="editMovie">
-      <label for="editTitle">Titre:</label>
-      <input
-        type="text"
-        id="editTitle"
-        name="editTitle"
-        v-model="editedMovie.title"
-        :placeholder="currentEditingMovie.title"
-      />
-
-      <label for="editDescription">Description:</label>
-      <textarea
-        type="text"
-        id="editDescription"
-        name="editDescription"
-        :placeholder="currentEditingMovie.description"
-        height="500px"
-        v-model="editedMovie.description"
-      ></textarea>
-
-      <label for="editDuration">Durée (en minutes):</label>
-      <input
-        type="number"
-        id="editDuration"
-        name="editDuration"
-        v-model="editedMovie.duration"
-        :placeholder="currentEditingMovie.duration"
-      />
-
-      <button type="submit">Submit</button>
-    </form>
-  </div>
+  <EditForm
+    v-if="isModalEdit"
+    :currentEditingMovie="currentEditingMovie"
+    :fetchData="fetchData"
+    :handleIsModalEdit="handleIsModalEdit"
+    />
+ 
   <div class="titre">
     <h1>FILMS</h1>
 
