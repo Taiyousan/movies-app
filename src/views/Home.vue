@@ -70,9 +70,16 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="gallery">
-    <MovieCard v-for="(movie, index) in randomMovies" :key="'movie' + index" :movie="movie" />
-    <ActorCard v-for="actor in randomActors" :key="actor.id" :actor="actor" />
+  <div class="gallery-container">
+    <div class="title">VOS RECOMMANDATIONS</div>
+    <div class="movies">
+      <MovieCard v-for="(movie, index) in randomMovies" :key="'movie' + index" :movie="movie" />
+    </div>
+    <div class="title">LES ACTEURS DU MOMENT</div>
+
+    <div class="actors">
+      <ActorCard v-for="actor in randomActors" :key="actor.id" :actor="actor" />
+    </div>
   </div>
 </template>
 
@@ -108,12 +115,34 @@ onMounted(async () => {
   }
 }
 
-.gallery {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  margin: 2em;
-  gap: 1em;
+.gallery-container {
+  .movies {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 2em;
+    gap: 1em;
+  }
+
+  .actors {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 2em auto;
+    gap: 2em;
+    padding: 2em;
+    max-width: 1200px; // Adaptez en fonction de la largeur désirée
+    background-color: #f4f4f4; // Une couleur de fond légère pour contraster avec les cartes
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  }
+
+  .title {
+    font-size: 2em;
+    font-weight: bold;
+    margin: 2em;
+    color: #252525;
+  }
 }
 </style>

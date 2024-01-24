@@ -19,7 +19,6 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="titre"><h1>ACTORS</h1></div>
   <div class="gallery">
     <ActorCard v-for="actor in data" :key="actor.id" :actor="actor" />
   </div>

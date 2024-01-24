@@ -17,104 +17,168 @@ const triggerEvent = (data) => {
 
 <template>
   <div class="movie-card">
-    <div class="infos">
-      <h2>{{ movie.title }}</h2>
-      <img src="img/tenet.jpg" alt="">
-      <p><span class="bold">Synopsis : </span> {{ movie.description }}</p>
-      <p><span class="bold">Date de sortie : </span>{{ movie.releaseDate }}</p>
-      <p><span class="bold">Durée (en minutes) : </span>{{ movie.duration }}</p>
-    </div>
-    <div class="actors" v-if="!detailsPage">
-      <div class="actor">
-        <p v-for="actor in movie.actors">
-          {{ actor.firstName + " " + actor.lastName }}
-        </p>
+    <div class="movie-card-content">
+      <div class="movie-card-title">
+        <p>{{ movie.title }}</p>
+      </div>
+      <div class="movie-card-infos">
+        <div class="info">
+          <p class="info-libelle">Synopsis </p>
+          <p class="info-text">{{ movie.description }}</p>
+        </div>
+        <div class="info">
+          <p class="info-libelle">Date de sortie </p>
+          <p class="info-text">{{ movie.releaseDate }}</p>
+        </div>
+        <div class="info">
+          <p class="info-libelle">Durée (en minutes) </p>
+          <p class="info-text">{{ movie.duration }}</p>
+        </div>
+      </div>
+      <div class="actors" v-if="!detailsPage">
+        <div class="actor" v-for="actor in movie.actors">
+          <p>
+            {{ actor.firstName + " " + actor.lastName }}
+          </p>
+        </div>
+      </div>
+      <div class="links">
+        <RouterLink :to="{ name: 'movieDetails', params: { id: movie.id } }" v-if="!detailsPage" class="link">
+          Voir la fiche
+        </RouterLink>
+        <div class="link green" @click="triggerEvent(movie)">Modifier</div>
       </div>
     </div>
-    <RouterLink :to="{ name: 'movieDetails', params: { id: movie.id } }" v-if="!detailsPage" class="link">
-      Voir la fiche
-    </RouterLink>
-    <div class="link green" @click="triggerEvent(movie)">Modifier</div>
+
   </div>
 </template>
 
 <style scoped lang="scss">
 .movie-card {
-  background-color: #1b1b1b;
-  color: white;
-  padding: 20px;
+  height: 28em;
+  width: 20em;
+  background-image: url("img/tenet.jpg");
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  color: #fff;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  max-width: 350px;
-  margin: 20px auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 
-  .link {
-    margin-top: 20px;
-    display: inline-block;
-    text-decoration: none;
-    color: white;
-    background-color: #f39c12;
-    padding: 10px 20px;
+  &:hover {
+    .movie-card-content {
+      transform: scaleY(1);
+      opacity: 1;
+    }
+  }
+
+  .movie-card-content {
+    background-color: rgba(0, 0, 0, 0.8);
+    height: 100%;
+    width: 100%;
+    transform: scaleY(0);
+    opacity: 0;
+    transition: 0.2s;
+    transform-origin: bottom;
     border-radius: 8px;
-    transition: background-color 0.3s, transform 0.2s;
-
-    &:hover {
-      background-color: #e87c05;
-      transform: scale(1.05);
-    }
   }
 
-  .green {
-    background-color: #4caf50;
+  .movie-card-title {
+    font-size: 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 1em;
+    background-color: #f39c12;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 8px 8px 0 0;
+    text-wrap: nowrap;
+    font-size: 0.8em;
   }
 
-  .infos {
-    padding: 0 20px 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  .movie-card-infos {
 
-    h2 {
-      margin-top: 0;
-      font-size: 1.5em;
-    }
+    // outline: red solid 1px;
+    padding: 0.5em 0.5em 0 0.5em;
 
-    p {
-      margin: 10px 0;
-      font-size: 0.9em;
-      line-height: 1.4;
-    }
+    .info {
+      // outline: red solid 1px;
+      margin: 1em 0.1em;
+      padding: 0em 0.5em;
 
-    img {
-      margin-top: 1em;
-      width: 100%;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      .info-libelle {
+        font-weight: bold;
+        padding-bottom: 0.5em;
+        font-size: 0.9em;
+        width: 50%;
+        border-bottom: 1px solid #f39c12;
+      }
+
+      .info-text {
+        padding: 0.2em 0;
+        font-size: 0.7em;
+        line-height: 1.4em;
+        margin-top: 0.5em;
+        font-weight: bold;
+        // font-family: 'Roboto', sans-serif !important;
+      }
     }
   }
 
   .actors {
-    margin-top: 20px;
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    width: 90%;
+    margin: auto;
+    // flex-wrap: wrap;
+    flex-direction: row;
+    align-items: start;
+    justify-content: space-around;
+    gap: 5px;
 
     .actor {
-      flex: 1 1 calc(50% - 10px);
-    }
+      width: fit-content;
 
-    p {
-      margin: 0;
-      background-color: #2d2d2d;
-      padding: 5px 10px;
-      border-radius: 5px;
+      p {
+        margin: 0;
+        background-color: #2d2d2d;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 0.6em;
+        width: fit-content;
+        text-align: center;
+      }
     }
   }
 
-  .bold {
-    font-weight: bold;
-    color: #f39c12;
+  .links {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    // padding: 0.8em 0;
+    margin-bottom: 2em;
+
+    .link {
+      display: inline-block;
+      text-decoration: none;
+      color: white;
+      background-color: #f39c12;
+      padding: 10px 20px;
+      border-radius: 8px;
+      transition: background-color 0.3s, transform 0.2s;
+      cursor: pointer;
+      font-size: 0.7em;
+    }
+
+    .green {
+      background-color: #4caf50;
+    }
   }
+
 }
 </style>
