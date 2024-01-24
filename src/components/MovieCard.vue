@@ -24,7 +24,8 @@ const triggerEvent = (data) => {
       <div class="movie-card-infos">
         <div class="info">
           <p class="info-libelle">Synopsis </p>
-          <p class="info-text">{{ movie.description }}</p>
+          <p class="info-text">{{ movie.description.length > 75 ? movie.description.slice(0, 75) + '...' :
+            movie.description }}</p>
         </div>
         <div class="info">
           <p class="info-libelle">Date de sortie </p>
@@ -57,7 +58,7 @@ const triggerEvent = (data) => {
 .movie-card {
   height: 28em;
   width: 20em;
-  background-image: url("img/tenet.jpg");
+  background-image: url("/img/tenet.jpg");
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
@@ -89,7 +90,7 @@ const triggerEvent = (data) => {
     align-items: center;
     width: 100%;
     padding: 1em;
-    background-color: #f39c12;
+    background-color: #A76571;
     text-transform: uppercase;
     font-weight: bold;
     text-align: center;
@@ -113,7 +114,7 @@ const triggerEvent = (data) => {
         padding-bottom: 0.5em;
         font-size: 0.9em;
         width: 50%;
-        border-bottom: 1px solid #f39c12;
+        border-bottom: 1px solid #A76571;
       }
 
       .info-text {
@@ -167,7 +168,7 @@ const triggerEvent = (data) => {
       display: inline-block;
       text-decoration: none;
       color: white;
-      background-color: #f39c12;
+      background-color: #A76571;
       padding: 10px 20px;
       border-radius: 8px;
       transition: background-color 0.3s, transform 0.2s;

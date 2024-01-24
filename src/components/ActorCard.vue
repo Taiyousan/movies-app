@@ -24,7 +24,11 @@ defineProps({
       <p>{{ actor.nationality.name }}</p>
     </div>
     <div class="actor-movie-list">
-      <p v-for="movie in actor.movies">{{ movie.title }}</p>
+      <!-- <p v-for="movie in actor.movies">{{ movie.title }}</p> -->
+      <RouterLink v-for="movie in actor.movies" :to="{ name: 'movieDetails', params: { id: movie.id } }"
+        v-if="!detailsPage" class="link">
+        {{ movie.title }}
+      </RouterLink>
     </div>
   </div>
 </template>
@@ -62,7 +66,7 @@ defineProps({
 
     p {
       // background-color: rgba(0, 0, 0, 0.436);
-      background-color: orange;
+      background-color: #A76571;
       border-radius: 20px;
       padding: 1em 5em;
     }
@@ -85,13 +89,14 @@ defineProps({
   .actor-movie-list {
     font-size: 0.7em;
     margin-top: 1em;
+    display: flex;
+    flex-direction: column;
 
-
-    p {
-      margin: 0.5em 0;
+    a {
       padding: 1em;
-      color: blue;
+      color: #55868C;
       font-weight: bold;
+      text-decoration: none;
     }
   }
 }

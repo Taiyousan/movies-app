@@ -30,12 +30,12 @@ function logout() {
   <header class="header-home">
     <div class="logo-container"><img src="img/logo.svg" alt=""></div>
     <nav>
-      <RouterLink to="/"><span>Accueil</span></RouterLink>
-      <RouterLink to="/movies"><span>Films</span></RouterLink>
-      <RouterLink to="/actors"><span>Acteurs</span></RouterLink>
-      <RouterLink to="/categories"><span>Catégories</span></RouterLink>
+      <RouterLink to="/"><img src="/icons/home.png" alt=""><span>Accueil</span></RouterLink>
+      <RouterLink to="/movies"><img src="/icons/movie.png" alt=""><span>Films</span></RouterLink>
+      <RouterLink to="/actors"><img src="/icons/actor.png" alt=""><span>Acteurs</span></RouterLink>
+      <RouterLink to="/categories"><img src="/icons/category.png" alt=""><span>Catégories</span></RouterLink>
       <RouterLink to="/login" v-if="!token"><span>Login</span></RouterLink>
-      <div class="logout" v-else @click="logout()"><span>Lougout</span></div>
+      <div class="logout" v-else @click="logout()"><img src="/icons/logout.png" alt=""><span>Lougout</span></div>
     </nav>
   </header>
   <div class="main">
@@ -52,7 +52,8 @@ function logout() {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #252525;
+  background-color: #55868C;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 
   .logo-container {
     width: 100%;
@@ -83,24 +84,33 @@ function logout() {
       font-size: .8em;
       font-weight: bold;
       text-decoration: none;
-      color: #252525;
+      color: #fff;
       padding: 1em;
-      background-color: #fff;
-      border-radius: 25px;
+      border-radius: 10px;
+      // background-color: #fff;
+      text-transform: none;
       cursor: pointer;
       transition: all .2s ease-in-out;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
 
       span {
         transition: all .2s ease-in-out;
       }
 
+      img {
+        width: 2em;
+        margin-right: 1.5em;
+        object-fit: contain;
+      }
+
       &:hover {
-        background-color: #252525;
-        color: #fff;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
 
         span {
           display: block;
-          transform: translateX(20%);
+          // transform: translateX(20%);
         }
       }
     }
@@ -111,7 +121,6 @@ function logout() {
   margin-left: 10em;
   width: calc(100% - 10em);
   height: 100vh;
-  background-color: #f5f5f5;
   padding: 1em;
 }
 </style>

@@ -127,7 +127,7 @@ function handleIsModalEdit(bool) {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: #252525;
+  background-color: #A76571;
   color: white;
   display: flex;
   justify-content: center;
