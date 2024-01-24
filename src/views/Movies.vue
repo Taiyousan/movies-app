@@ -84,14 +84,14 @@ function handleIsModalEdit(bool) {
   </div>
   <div class="pagination">
     <div class="prev page" @click="changePage(page - 1)" v-if="page !== 1">
-      PREV
+      <img src="/icons/arrow-left.png" alt="">
     </div>
     <div v-for="i in parseInt(pagesTotal)" :key="i" class="page" @click="changePage(i)"
       :class="{ 'active-page': i === page }">
       {{ i }}
     </div>
     <div class="next page" v-if="nextPageUrl && page !== parseInt(pagesTotal)" @click="changePage(page + 1)">
-      NEXT
+      <img src="/icons/arrow-right.png" alt="">
     </div>
   </div>
   <div class="gallery" v-if="!isNoResults && isLoaded">
@@ -134,15 +134,15 @@ function handleIsModalEdit(bool) {
   align-items: center;
   cursor: pointer;
 
-  &:active {
-    background-color: #1b1b1b;
-  }
+  &:active {}
 
   &:hover,
   &.active-page {
-    background-color: #ffffff;
-    color: #252525;
-    outline: 2px solid #252525;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.8) 0px 18px 36px -18px inset;
+  }
+
+  img {
+    width: 20px;
   }
 }
 

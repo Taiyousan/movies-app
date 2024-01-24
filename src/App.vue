@@ -27,15 +27,14 @@ function logout() {
 </script>
 
 <template>
-  <header class="header-home">
+  <header class="header-home" v-if="token">
     <div class="logo-container"><img src="img/logo.svg" alt=""></div>
     <nav>
       <RouterLink to="/"><img src="/icons/home.png" alt=""><span>Accueil</span></RouterLink>
       <RouterLink to="/movies"><img src="/icons/movie.png" alt=""><span>Films</span></RouterLink>
       <RouterLink to="/actors"><img src="/icons/actor.png" alt=""><span>Acteurs</span></RouterLink>
       <RouterLink to="/categories"><img src="/icons/category.png" alt=""><span>Catégories</span></RouterLink>
-      <RouterLink to="/login" v-if="!token"><span>Login</span></RouterLink>
-      <div class="logout" v-else @click="logout()"><img src="/icons/logout.png" alt=""><span>Lougout</span></div>
+      <div class="logout" @click="logout()"><img src="/icons/logout.png" alt=""><span>Lougout</span></div>
     </nav>
   </header>
   <div class="main">
@@ -48,6 +47,7 @@ function logout() {
   width: fit-content;
   position: fixed;
   height: 100vh;
+  top: 0;
   // display: flex;
   flex-direction: column;
   justify-content: center;
@@ -121,6 +121,6 @@ function logout() {
   margin-left: 10em;
   width: calc(100% - 10em);
   height: 100vh;
-  padding: 1em;
+  // padding: 1em;
 }
 </style>
