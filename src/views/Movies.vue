@@ -75,50 +75,27 @@ function handleIsModalEdit(bool) {
 </script>
 
 <template>
-  <EditForm
-    v-if="isModalEdit"
-    :currentEditingMovie="currentEditingMovie"
-    :fetchData="fetchData"
-    :handleIsModalEdit="handleIsModalEdit"
-    />
- 
-  <div class="titre">
-    <h1>FILMS</h1>
+  <EditForm v-if="isModalEdit" :currentEditingMovie="currentEditingMovie" :fetchData="fetchData"
+    :handleIsModalEdit="handleIsModalEdit" />
 
-    <SearchBar
-      @search-event="handleSearchEvent"
-      @isSearchLoaded="handleSearchLoader"
-      :token="token"
-    />
+  <div class="titre">
+
+    <SearchBar @search-event="handleSearchEvent" @isSearchLoaded="handleSearchLoader" :token="token" />
   </div>
   <div class="pagination">
     <div class="prev page" @click="changePage(page - 1)" v-if="page !== 1">
-      PREV
+      <img src="/icons/arrow-left.png" alt="">
     </div>
-    <div
-      v-for="i in parseInt(pagesTotal)"
-      :key="i"
-      class="page"
-      @click="changePage(i)"
-      :class="{ 'active-page': i === page }"
-    >
+    <div v-for="i in parseInt(pagesTotal)" :key="i" class="page" @click="changePage(i)"
+      :class="{ 'active-page': i === page }">
       {{ i }}
     </div>
-    <div
-      class="next page"
-      v-if="nextPageUrl && page !== parseInt(pagesTotal)"
-      @click="changePage(page + 1)"
-    >
-      NEXT
+    <div class="next page" v-if="nextPageUrl && page !== parseInt(pagesTotal)" @click="changePage(page + 1)">
+      <img src="/icons/arrow-right.png" alt="">
     </div>
   </div>
   <div class="gallery" v-if="!isNoResults && isLoaded">
-    <MovieCard
-      v-for="movie in data"
-      :key="movie.id"
-      :movie="movie"
-      @edit-event="handleEditEvent"
-    />
+    <MovieCard v-for="movie in data" :key="movie.id" :movie="movie" @edit-event="handleEditEvent" />
   </div>
   <div class="gallery" v-if="isNoResults && isLoaded">
     <p>Aucun résultat !</p>
@@ -150,22 +127,22 @@ function handleIsModalEdit(bool) {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: #252525;
+  background-color: #A76571;
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
 
-  &:active {
-    background-color: #1b1b1b;
-  }
+  &:active {}
 
   &:hover,
   &.active-page {
-    background-color: #ffffff;
-    color: #252525;
-    outline: 2px solid #252525;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.8) 0px 18px 36px -18px inset;
+  }
+
+  img {
+    width: 20px;
   }
 }
 
@@ -184,7 +161,7 @@ function handleIsModalEdit(bool) {
   // Ajoutez ici des styles spécifiques à la modal
 
   // Exemple de style pour les enfants de la modal
-  & > * {
+  &>* {
     margin: 10px; // Marge entre les éléments enfants de la modal
   }
 

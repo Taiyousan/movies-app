@@ -1,4 +1,7 @@
 <script setup>
+import MovieCard from "../components/MovieCard.vue";
+
+
 defineProps({
   category: Object,
 });
@@ -6,66 +9,18 @@ defineProps({
 
 <template>
   <div class="category-card">
-    <div class="infos">
-      <h2>{{ category.name }}</h2>
-    </div>
+    <p>{{ category.name }}</p>
     <div class="movies">
-      <div class="movie">
-        <p v-for="movie in category.movies">
-          {{ movie.title }}
-        </p>
-      </div>
+      <!-- <MovieCard v-for="movie in category.movies" :key="movie.id" :movie="movie" /> -->
+      <!-- <p v-for="movie in category.movies">{{ movie }}</p> -->
+      <RouterLink v-for="movie in category.movies" :key="movie.id"
+        :to="{ name: 'movieDetails', params: { id: movie.id } }" v-if="!detailsPage" class="link">
+        {{ movie.title }}
+      </RouterLink>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-.movie-card {
-  background-color: #1b1b1b;
-  color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  max-width: 350px;
-  margin: 20px auto;
-
-  .infos {
-    padding: 0 20px 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-
-    h2 {
-      margin-top: 0;
-      font-size: 1.5em;
-    }
-
-    p {
-      margin: 10px 0;
-      font-size: 0.9em;
-      line-height: 1.4;
-    }
-  }
-
-  .actors {
-    margin-top: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-
-    .actor {
-      flex: 1 1 calc(50% - 10px); // Pour deux acteurs par ligne, adaptez selon le nombre souhaité
-    }
-
-    p {
-      margin: 0;
-      background-color: #2d2d2d;
-      padding: 5px 10px;
-      border-radius: 5px;
-    }
-  }
-
-  .bold {
-    font-weight: bold;
-    color: #f39c12; // couleur d'accent
-  }
-}
+.movie-card {}
 </style>

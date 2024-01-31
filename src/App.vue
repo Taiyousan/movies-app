@@ -27,48 +27,100 @@ function logout() {
 </script>
 
 <template>
-  <header class="header-home">
+  <header class="header-home" v-if="token">
+    <div class="logo-container"><img src="img/logo.svg" alt=""></div>
     <nav>
-      <RouterLink to="/">Accueil</RouterLink>
-      <RouterLink to="/movies">Movies</RouterLink>
-      <RouterLink to="/actors">Actors</RouterLink>
-      <RouterLink to="/categories">Catégories</RouterLink>
-      <RouterLink to="/login" v-if="!token">Login</RouterLink>
-      <div class="logout" v-else @click="logout()">Lougout</div>
+      <RouterLink to="/"><img src="/icons/home.png" alt=""><span>Accueil</span></RouterLink>
+      <RouterLink to="/movies"><img src="/icons/movie.png" alt=""><span>Films</span></RouterLink>
+      <RouterLink to="/actors"><img src="/icons/actor.png" alt=""><span>Acteurs</span></RouterLink>
+      <RouterLink to="/categories"><img src="/icons/category.png" alt=""><span>Catégories</span></RouterLink>
+      <div class="logout" @click="logout()"><img src="/icons/logout.png" alt=""><span>Lougout</span></div>
     </nav>
   </header>
-  <RouterView />
+  <div class="main">
+    <RouterView />
+  </div>
 </template>
 
 <style scoped lang="scss">
 .header-home {
-  background-color: #252525;
-  width: 100%;
-  height: 100px;
-  display: flex;
+  width: fit-content;
+  position: fixed;
+  height: 100vh;
+  top: 0;
+  // display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  h1 {
-    color: #fff;
-  }
-  nav {
+  background-color: #55868C;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+
+  .logo-container {
     width: 100%;
-    height: 50px;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
-    color: white;
+    margin-top: 1em;
+
+    img {
+      width: 20%;
+    }
+  }
+
+  nav {
+    // background-color: rgba(65, 64, 64, 0.95);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 80%;
+    width: 10em;
+    margin: 1em;
+    border-radius: 5px;
+    padding: 0.5em;
+
 
     a,
     .logout {
+      font-size: .8em;
+      font-weight: bold;
       text-decoration: none;
-      color: #252525;
+      color: #fff;
       padding: 1em;
-      background-color: #fff;
-      border-radius: 5px;
+      border-radius: 10px;
+      // background-color: #fff;
+      text-transform: none;
       cursor: pointer;
+      transition: all .2s ease-in-out;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+
+      span {
+        transition: all .2s ease-in-out;
+      }
+
+      img {
+        width: 2em;
+        margin-right: 1.5em;
+        object-fit: contain;
+      }
+
+      &:hover {
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+
+        span {
+          display: block;
+          // transform: translateX(20%);
+        }
+      }
     }
   }
+}
+
+.main {
+  margin-left: 10em;
+  width: calc(100% - 10em);
+  height: 100vh;
+  // padding: 1em;
 }
 </style>

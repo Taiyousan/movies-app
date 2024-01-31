@@ -19,7 +19,6 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="titre"><h1>ACTORS</h1></div>
   <div class="gallery">
     <ActorCard v-for="actor in data" :key="actor.id" :actor="actor" />
   </div>
@@ -34,8 +33,8 @@ onMounted(async () => {
   gap: 2em;
   padding: 2em;
   max-width: 1200px; // Adaptez en fonction de la largeur désirée
-  background-color: #f4f4f4; // Une couleur de fond légère pour contraster avec les cartes
+  // background-color: #f4f4f4; // Une couleur de fond légère pour contraster avec les cartes
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  // box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 </style>
