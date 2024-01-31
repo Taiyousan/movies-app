@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import axios from 'axios'
+import UploadImage from './UploadImage.vue'
 const token = localStorage.getItem('token')
 const props = defineProps(['currentEditingMovie', 'fetchData', 'handleIsModalEdit'])
 const editedMovie = ref({
@@ -88,6 +89,7 @@ async function editMovie() {
         </form>
         <button @click="props.handleIsModalEdit(false)" class="handle-is-modal-edit">truc</button>
     </div>
+    <UploadImage />
 </template>
 <style scoped lang="scss">
 .modal-edit {

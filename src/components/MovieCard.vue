@@ -1,10 +1,9 @@
 <script setup>
 // Importez defineProps et defineEmits depuis 'vue'
-import { defineProps, defineEmits } from "vue";
+import { defineProps, defineEmits, toRaw } from "vue";
 
 // Définissez les propriétés reçues de la Card
 const { movie, detailsPage } = defineProps(["movie", "detailsPage"]);
-
 // Définissez les événements que vous prévoyez d'émettre
 const emit = defineEmits();
 
@@ -16,7 +15,9 @@ const triggerEvent = (data) => {
 </script>
 
 <template>
-  <div class="movie-card">
+  <div
+    :style="{ backgroundImage: movie.image ? `url(http://127.0.0.1:8000/uploads/${movie.image.filePath})` : 'url(http://127.0.0.1:8000/uploads/65ba12d8a3baa_resultats.png)' }"
+    class="movie-card">
     <div class="movie-card-content">
       <div class="movie-card-title">
         <p>{{ movie.title }}</p>
@@ -37,7 +38,7 @@ const triggerEvent = (data) => {
         </div>
       </div>
       <div class="actors" v-if="!detailsPage">
-        <div class="actor" v-for="actor in movie.actors">
+        <div class="actor" v-for=" actor  in  movie.actors ">
           <p>
             {{ actor.firstName + " " + actor.lastName }}
           </p>
@@ -58,7 +59,6 @@ const triggerEvent = (data) => {
 .movie-card {
   height: 28em;
   width: 20em;
-  background-image: url("/img/tenet.jpg");
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;

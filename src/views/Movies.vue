@@ -33,6 +33,7 @@ async function fetchData(
     },
   });
   data.value = response.data["hydra:member"];
+  console.log(toRaw(data));
   completeData.value = response.data["hydra:member"];
   nextPageUrl.value =
     "http://127.0.0.1:8000" + response.data["hydra:view"]["hydra:next"];
