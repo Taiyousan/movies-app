@@ -1,24 +1,56 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, toRaw } from 'vue'
 import axios from 'axios'
 const token = localStorage.getItem('token')
 const props = defineProps(['currentEditingMovie', 'fetchData', 'handleIsModalEdit'])
 const editedMovie = ref({
     title: '',
     description: '',
-    duration: ''
+    duration: '',
+    image: ''
 })
+const image = props.currentEditingMovie.image ? ref('http://127.0.0.1:8000/uploads/' + props.currentEditingMovie.image.filePath) : "no image"
 
 // EDIT MOVIE
-async function editMovie() {
-    console.log(props.currentEditingMovie.id);
+const handleFileInputChange = (event) => {
+    // quand l'utilisateur choisit une image, elle est affichée dans le formulaire
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+            image.value = reader.result;
+            editedMovie.value.image = file;
+        };
+        reader.readAsDataURL(file);
+    }
+};
+
+async function addImageToDb() {
     try {
-        // TOKEN
-        // const token = localStorage.getItem("token");
-        // if (!token) {
-        //   router.push("/");
-        //   return;
-        // }
+        // HEADERS
+        const headers = {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/merge-patch+json",
+        };
+
+        const formData = new FormData();
+        formData.append('file', editedMovie.value.image);
+
+        const response = await axios.post('http://127.0.0.1:8000/api/media_objects', formData, { headers });
+        const imageId = response.data['@id'];
+        return imageId;
+    } catch (error) {
+        console.error('Erreur lors de l\'envoi du fichier:', error);
+        throw error;
+    }
+}
+
+
+
+async function editMovie() {
+    try {
+
+        const imageId = await addImageToDb();
 
         // HEADERS
         const headers = {
@@ -27,16 +59,10 @@ async function editMovie() {
         };
 
         const updatedMovie = {
-            title: editedMovie.value.title
-                ? editedMovie.value.title
-                : props.currentEditingMovie.title,
-            description: editedMovie.value.description
-                ? editedMovie.value.description
-                : props.currentEditingMovie.description,
-            duration:
-                editedMovie.value.duration !== ""
-                    ? parseInt(editedMovie.value.duration)
-                    : parseInt(props.currentEditingMovie.duration),
+            ...(editedMovie.value.title !== "" ? { title: editedMovie.value.title } : {}),
+            ...(editedMovie.value.description !== "" ? { description: editedMovie.value.description } : {}),
+            ...(editedMovie.value.duration !== "" ? { duration: parseInt(editedMovie.value.duration) } : {}),
+            ...(imageId ? { image: imageId } : {})
         };
 
         // REQUEST
@@ -55,9 +81,6 @@ async function editMovie() {
             duration: "",
         };
     } catch (error) {
-        // console.log(error.response.data);
-        // console.log(error.response.status);
-        // console.log(error.response.headers);
         console.log(error);
     }
 }
@@ -77,16 +100,21 @@ async function editMovie() {
 
             <label for="editDescription">Description:</label>
             <textarea type="text" id="editDescription" name="editDescription" :placeholder="currentEditingMovie.description"
-                height="500px" v-model="editedMovie.description"></textarea>
+                v-model="editedMovie.description"></textarea>
 
             <label for="editDuration">Durée (en minutes):</label>
             <input type="number" id="editDuration" name="editDuration" v-model="editedMovie.duration"
                 :placeholder="currentEditingMovie.duration" />
 
+            <label for="image">Image:</label>
+            <img :src="image" alt="">
+            <input type="file" ref="fileInput" @change="handleFileInputChange" />
+
             <button type="submit" class="edit-button">Submit</button>
 
         </form>
-        <button @click="props.handleIsModalEdit(false)" class="handle-is-modal-edit">truc</button>
+        <button @click="props.handleIsModalEdit(false)" class="handle-is-modal-edit">close</button>
+        <button @click="addImageToDb" class="handle-is-modal-edit">addimg</button>
     </div>
 </template>
 <style scoped lang="scss">
@@ -97,10 +125,11 @@ async function editMovie() {
     transform: translateY(-50%);
     right: 0;
     height: 90vh;
-    width: 20em;
+    width: 50em;
     background-color: #252525;
     border-radius: 1em 0 0 1em;
     color: white;
+    // padding: 2em;
 
     // Ajoutez ici des styles spécifiques à la modal
 
@@ -131,9 +160,12 @@ async function editMovie() {
             color: white;
         }
 
-        textarea {
-            height: 300px;
+        img {
+            width: 20%;
+            object-fit: cover;
+            margin: 1em 0;
         }
+
 
         .edit-button {
             padding: 10px;
