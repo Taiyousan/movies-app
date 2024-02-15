@@ -147,65 +147,65 @@ function handleIsModalEdit(bool) {
   }
 }
 
-.modal-edit {
-  position: fixed;
-  z-index: 10;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 0;
-  height: 90vh;
-  width: 20em;
-  background-color: #252525;
-  border-radius: 1em 0 0 1em;
-  color: white;
+// .modal-edit {
+//   position: fixed;
+//   z-index: 10;
+//   top: 50%;
+//   transform: translateY(-50%);
+//   right: 0;
+//   height: 90vh;
+//   width: 20em;
+//   background-color: #252525;
+//   border-radius: 1em 0 0 1em;
+//   color: white;
 
-  // Ajoutez ici des styles spécifiques à la modal
+//   // Ajoutez ici des styles spécifiques à la modal
 
-  // Exemple de style pour les enfants de la modal
-  &>* {
-    margin: 10px; // Marge entre les éléments enfants de la modal
-  }
+//   // Exemple de style pour les enfants de la modal
+//   &>* {
+//     margin: 10px; // Marge entre les éléments enfants de la modal
+//   }
 
-  .edit-title {
-    font-weight: bold;
-  }
+//   .edit-title {
+//     font-weight: bold;
+//   }
 
-  .form {
-    display: flex;
-    flex-direction: column;
+//   .form {
+//     display: flex;
+//     flex-direction: column;
 
-    label {
-      margin-bottom: 5px;
-    }
+//     label {
+//       margin-bottom: 5px;
+//     }
 
-    input,
-    textarea {
-      padding: 8px;
-      margin-bottom: 10px;
-      border: 1px solid white;
-      border-radius: 4px;
-      background-color: transparent;
-      color: white;
-    }
+//     input,
+//     textarea {
+//       padding: 8px;
+//       margin-bottom: 10px;
+//       border: 1px solid white;
+//       border-radius: 4px;
+//       background-color: transparent;
+//       color: white;
+//     }
 
-    textarea {
-      height: 300px;
-    }
+//     textarea {
+//       height: 300px;
+//     }
 
-    button {
-      padding: 10px;
-      background-color: #007bff; // Couleur bleue pour le bouton, ajustez selon vos besoins
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
+//     button {
+//       padding: 10px;
+//       background-color: #007bff; // Couleur bleue pour le bouton, ajustez selon vos besoins
+//       color: white;
+//       border: none;
+//       border-radius: 4px;
+//       cursor: pointer;
 
-      &:hover {
-        background-color: #0056b3; // Changement de couleur au survol
-      }
-    }
-  }
-}
+//       &:hover {
+//         background-color: #0056b3; // Changement de couleur au survol
+//       }
+//     }
+//   }
+// }
 
 .loader-container {
   display: flex;
