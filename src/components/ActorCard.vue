@@ -1,11 +1,15 @@
 <script setup>
-import { defineProps } from "vue";
+import { defineProps, onMounted } from "vue";
 import axios from "axios";
 const { actor, fetchData } = defineProps(["actor", "fetchData"]);
 
 
 const baseUrl = "http://127.0.0.1:8000/api"
 const token = localStorage.getItem("token")
+
+onMounted(() => {
+  console.log(actor)
+})
 
 async function deleteActor() {
   const actorId = actor["@id"].split("/").pop()
@@ -39,7 +43,7 @@ async function deleteActor() {
     <div class="actor-name">
       <p>{{ actor.firstName }} {{ actor.lastName }}</p>
     </div>
-    <div class="actor-nationality">
+    <div class="actor-nationality" v-if="actor.nationality.name">
       <p>{{ actor.nationality.name }}</p>
     </div>
     <div class="actor-movie-list">

@@ -9,7 +9,7 @@ let token = localStorage.getItem("token");
 const isAddActor = ref(false);
 
 async function fetchData() {
-  const response = await axios.get("http://127.0.0.1:8000/api/actors?page=1", {
+  const response = await axios.get("http://127.0.0.1:8000/api/actors", {
     headers: {
       Accept: "application/ld+json",
       Authorization: `Bearer ${token}`,

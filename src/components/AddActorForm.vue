@@ -1,10 +1,11 @@
 <script setup>
-import { ref, onMounted, toRaw, defineEmits } from "vue";
+import { ref, onMounted, toRaw, defineEmits, defineProps } from "vue";
 import axios from "axios";
 const baseUrl = "http://127.0.0.1:8000/api";
 const token = localStorage.getItem("token");
 
 const emit = defineEmits();
+const { fetchData } = defineProps(["fetchData"]);
 
 const isError = ref(false);
 
@@ -35,6 +36,10 @@ async function getNationalities(
 
 // POST MOVIE
 async function postActor() {
+    if (!firstName.value || !lastName.value || !selectedNationality.value) {
+        isError.value = true;
+        return;
+    }
     const data = {
         firstName: firstName.value,
         lastName: lastName.value,
@@ -50,6 +55,7 @@ async function postActor() {
         console.log(response);
         emit("close", true);
         isError.value = false;
+        fetchData();
     } catch (error) {
         console.error("Erreur lors de l'ajout du film:", error);
         isError.value = true;
