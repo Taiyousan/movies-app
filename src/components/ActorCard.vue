@@ -92,7 +92,6 @@ async function deleteActor() {
   }
 
   .actor-name {
-    height: 2em;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -100,6 +99,8 @@ async function deleteActor() {
 
     color: white;
     font-size: 0.8em;
+
+    margin: 1em;
 
     p {
       // background-color: rgba(0, 0, 0, 0.436);
