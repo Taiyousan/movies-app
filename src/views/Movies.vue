@@ -108,7 +108,8 @@ function handleIsModalEdit(bool) {
     </div>
   </div>
   <div class="gallery" v-if="!isNoResults && isLoaded">
-    <MovieCard v-for="movie in data" :key="movie.id" :movie="movie" canEdit="true" @edit-event="handleEditEvent" />
+    <MovieCard v-for="movie in data" :key="movie.id" :movie="movie" canEdit="true" @edit-event="handleEditEvent"
+      :fetchData="fetchData" />
   </div>
   <div class="gallery" v-if="isNoResults && isLoaded">
     <p>Aucun résultat !</p>

@@ -1,9 +1,12 @@
 <script setup>
 // Importez defineProps et defineEmits depuis 'vue'
 import { defineProps, defineEmits, toRaw } from "vue";
+import axios from "axios";
 
 // Définissez les propriétés reçues de la Card
-const { movie, detailsPage, canEdit } = defineProps(["movie", "detailsPage", "canEdit"]);
+const { movie, detailsPage, canEdit, fetchData } = defineProps(["movie", "detailsPage", "canEdit", "fetchData"]);
+const baseUrl = "http://127.0.0.1:8000/api";
+const token = localStorage.getItem("token");
 // Définissez les événements que vous prévoyez d'émettre
 const emit = defineEmits();
 
@@ -12,6 +15,17 @@ const triggerEvent = (data) => {
   // Émettre l'événement vers le parent avec les données spécifiées
   emit("edit-event", data);
 };
+
+async function deleteMovie(id) {
+  const url = `${baseUrl}/movies/${id}`;
+  const response = await axios.delete(url, {
+    headers: {
+      Accept: "application/ld+json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  fetchData();
+}
 </script>
 
 <template>
@@ -49,6 +63,7 @@ const triggerEvent = (data) => {
           Voir la fiche
         </RouterLink>
         <div class="link green" v-if="canEdit" @click="triggerEvent(movie)">Modifier</div>
+        <div class="link alert" v-if="canEdit" @click="deleteMovie(movie.id)">Supprimer</div>
       </div>
     </div>
 
@@ -178,6 +193,10 @@ const triggerEvent = (data) => {
 
     .green {
       background-color: #4caf50;
+    }
+
+    .alert {
+      background-color: #f44336;
     }
   }
 
