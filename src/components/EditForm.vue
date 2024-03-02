@@ -132,7 +132,6 @@ async function editMovie() {
 
         </form>
         <button @click="props.handleIsModalEdit(false)" class="handle-is-modal-edit">close</button>
-        <button @click="addImageToDb" class="handle-is-modal-edit">addimg</button>
     </div>
 </template>
 <style scoped lang="scss">
@@ -184,7 +183,7 @@ async function editMovie() {
             flex-direction: row;
 
             img {
-                width: 20%;
+                width: 15%;
                 object-fit: cover;
                 margin: 1em 0;
             }

@@ -5,6 +5,7 @@ import MovieCard from "../components/MovieCard.vue";
 import SearchBar from "../components/SearchBar.vue";
 import PulseLoader from "vue-spinner/src/PulseLoader.vue";
 import EditForm from "../components/EditForm.vue";
+import AddMovieForm from "../components/AddMovieForm.vue";
 
 let data = ref("");
 let completeData = ref("");
@@ -16,6 +17,7 @@ let isLoaded = ref(false);
 let token = localStorage.getItem("token");
 const isModalEdit = ref(false);
 let currentEditingMovie = ref("");
+const isAddMovie = ref(false);
 
 onMounted(() => {
   fetchData();
@@ -33,7 +35,6 @@ async function fetchData(
     },
   });
   data.value = response.data["hydra:member"];
-  console.log(toRaw(data));
   completeData.value = response.data["hydra:member"];
   nextPageUrl.value =
     "http://127.0.0.1:8000" + response.data["hydra:view"]["hydra:next"];
@@ -66,6 +67,14 @@ const handleEditEvent = (data) => {
   currentEditingMovie.value = data;
 };
 
+const toggleAddMovie = () => {
+  if (isAddMovie.value === false) {
+    isAddMovie.value = true;
+  } else {
+    isAddMovie.value = false;
+  }
+};
+
 function handleSearchLoader(isSearchLoaded) {
   isLoaded.value = isSearchLoaded;
 }
@@ -78,10 +87,13 @@ function handleIsModalEdit(bool) {
 <template>
   <EditForm v-if="isModalEdit" :currentEditingMovie="currentEditingMovie" :fetchData="fetchData"
     :handleIsModalEdit="handleIsModalEdit" />
+  <AddMovieForm v-if="isAddMovie" @close="toggleAddMovie" />
 
   <div class="titre">
-
     <SearchBar @search-event="handleSearchEvent" @isSearchLoaded="handleSearchLoader" :token="token" />
+  </div>
+  <div class="crud">
+    <div class="addMovie" @click="toggleAddMovie">Ajouter un film</div>
   </div>
   <div class="pagination">
     <div class="prev page" @click="changePage(page - 1)" v-if="page !== 1">
@@ -96,7 +108,8 @@ function handleIsModalEdit(bool) {
     </div>
   </div>
   <div class="gallery" v-if="!isNoResults && isLoaded">
-    <MovieCard v-for="movie in data" :key="movie.id" :movie="movie" canEdit="true" @edit-event="handleEditEvent" />
+    <MovieCard v-for="movie in data" :key="movie.id" :movie="movie" canEdit="true" @edit-event="handleEditEvent"
+      :fetchData="fetchData" />
   </div>
   <div class="gallery" v-if="isNoResults && isLoaded">
     <p>Aucun résultat !</p>
@@ -122,6 +135,26 @@ function handleIsModalEdit(bool) {
   align-items: center;
   margin: 2em;
   gap: 1em;
+}
+
+.crud {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2em;
+  gap: 1em;
+
+  .addMovie {
+    width: 10em;
+    height: 3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #A76571;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+  }
 }
 
 .page {
