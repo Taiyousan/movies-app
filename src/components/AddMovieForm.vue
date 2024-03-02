@@ -15,6 +15,7 @@ const title = ref("");
 const description = ref("");
 const duration = ref("");
 const releaseDate = ref("");
+const image = ref("");
 
 // GET ACTORS
 async function getActors(
@@ -45,14 +46,8 @@ async function postMovie() {
         duration: duration.value,
         releaseDate: releaseDate.value,
         actors: toRaw(selectedActors.value),
+        image: await addImageToDb(),
     };
-    // const data = {
-    //     "title": "madame test",
-    //     "description": "string",
-    //     "releaseDate": "2024-03-02T15:36:24.826Z",
-    //     "duration": 0,
-    //     "actors": ["/api/actors/2"]
-    // }
     try {
         const response = await axios.post(`${baseUrl}/movies`, data, {
             headers: {
@@ -68,8 +63,40 @@ async function postMovie() {
         isError.value = true;
         throw error;
     }
-    console.log(data);
+    console.log('data', data);
+    console.log('image', image.value);
 }
+
+// ADD IMG
+async function addImageToDb() {
+    console.log('image', image.value);
+    try {
+        // HEADERS
+        const headers = {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/merge-patch+json",
+        };
+
+        const formData = new FormData();
+        formData.append('file', image.value);
+
+        const response = await axios.post('http://127.0.0.1:8000/api/media_objects', formData, { headers });
+        const imageId = response.data['@id'];
+        return imageId;
+    } catch (error) {
+        console.error('Erreur lors de l\'envoi du fichier:', error);
+        throw error;
+    }
+}
+
+const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+        image.value = file;
+    };
+    reader.readAsDataURL(file);
+};
 
 const close = () => {
     emit("close", true);
@@ -119,10 +146,10 @@ onMounted(() => {
                     </option>
                 </select>
             </div> -->
-            <!-- <div class="form-group">
+            <div class="form-group">
                 <label for="image">Image</label>
                 <input type="file" id="image" @change="handleImageChange" />
-            </div> -->
+            </div>
 
             <button type="submit">Ajouter</button>
         </form>
