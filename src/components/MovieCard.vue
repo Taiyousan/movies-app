@@ -3,7 +3,7 @@
 import { defineProps, defineEmits, toRaw } from "vue";
 
 // Définissez les propriétés reçues de la Card
-const { movie, detailsPage } = defineProps(["movie", "detailsPage"]);
+const { movie, detailsPage, canEdit } = defineProps(["movie", "detailsPage", "canEdit"]);
 // Définissez les événements que vous prévoyez d'émettre
 const emit = defineEmits();
 
@@ -48,7 +48,7 @@ const triggerEvent = (data) => {
         <RouterLink :to="{ name: 'movieDetails', params: { id: movie.id } }" v-if="!detailsPage" class="link">
           Voir la fiche
         </RouterLink>
-        <div class="link green" @click="triggerEvent(movie)">Modifier</div>
+        <div class="link green" v-if="canEdit" @click="triggerEvent(movie)">Modifier</div>
       </div>
     </div>
 
