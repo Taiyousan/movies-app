@@ -14,9 +14,7 @@ defineProps({
     </ul>
   </div> -->
   <div class="actor-card">
-    <div class="actor-img">
-      <img src="img/mark-ruffalo.webp" alt="">
-    </div>
+
     <div class="actor-name">
       <p>{{ actor.firstName }} {{ actor.lastName }}</p>
     </div>
