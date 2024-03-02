@@ -6,7 +6,7 @@ import ActorCard from "../components/ActorCard.vue";
 let data = ref("");
 let token = localStorage.getItem("token");
 
-onMounted(async () => {
+async function fetchData() {
   const response = await axios.get("http://127.0.0.1:8000/api/actors?page=1", {
     headers: {
       Accept: "application/ld+json",
@@ -15,12 +15,17 @@ onMounted(async () => {
   });
   data.value = response.data["hydra:member"];
   console.log(toRaw(data.value));
+}
+
+
+onMounted(() => {
+  fetchData();
 });
 </script>
 
 <template>
   <div class="gallery">
-    <ActorCard v-for="actor in data" :key="actor.id" :actor="actor" />
+    <ActorCard v-for="actor in data" :key="actor.id" :actor="actor" :fetchData="fetchData" />
   </div>
 </template>
 
