@@ -9,7 +9,9 @@ const emit = defineEmits();
 const isError = ref(false);
 
 const actorsList = ref([]);
+const categoriesList = ref([]);
 const selectedActors = ref([]);
+const selectedCategory = ref("");
 
 const title = ref("");
 const description = ref("");
@@ -38,6 +40,20 @@ async function getActors(
     console.log(toRaw(actorsList.value));
 }
 
+// GET CATEGORIES
+async function getCategories(
+    url = `${baseUrl}/categories`
+) {
+    const response = await axios.get(url, {
+        headers: {
+            Accept: "application/ld+json",
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    categoriesList.value = response.data["hydra:member"];
+    console.log(toRaw(categoriesList.value));
+}
+
 // POST MOVIE
 async function postMovie() {
     const data = {
@@ -47,6 +63,7 @@ async function postMovie() {
         releaseDate: releaseDate.value,
         actors: toRaw(selectedActors.value),
         image: await addImageToDb(),
+        category: selectedCategory.value["@id"],
     };
     try {
         const response = await axios.post(`${baseUrl}/movies`, data, {
@@ -63,8 +80,6 @@ async function postMovie() {
         isError.value = true;
         throw error;
     }
-    console.log('data', data);
-    console.log('image', image.value);
 }
 
 // ADD IMG
@@ -104,6 +119,7 @@ const close = () => {
 
 onMounted(() => {
     getActors();
+    getCategories();
 });
 </script>
 
@@ -136,16 +152,14 @@ onMounted(() => {
                     <label :for="'actor_' + actor.id">{{ actor.firstName + " " + actor.lastName }}</label>
                 </div>
             </div>
-
-
-
-            <!-- <div class="form-group">
+            <div class="form-group">
                 <label for="categories">Catégorie</label>
                 <select id="categories" v-model="selectedCategory">
-                    <option v-for="categorie in categories" :key="categorie.id" :value="categorie.name">{{ categorie.name }}
+                    <option v-for="categorie in categoriesList" :key="categorie.id" :value="categorie">{{
+                        categorie.name }}
                     </option>
                 </select>
-            </div> -->
+            </div>
             <div class="form-group">
                 <label for="image">Image</label>
                 <input type="file" id="image" @change="handleImageChange" />
