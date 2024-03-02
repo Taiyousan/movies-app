@@ -9,7 +9,9 @@ const editedMovie = ref({
     duration: '',
     image: ''
 })
-const image = props.currentEditingMovie.image ? ref('http://127.0.0.1:8000/uploads/' + props.currentEditingMovie.image.filePath) : "no image"
+const isNewImg = ref(false)
+const originalImage = props.currentEditingMovie.image ? ref('http://127.0.0.1:8000/uploads/' + props.currentEditingMovie.image.filePath) : ref('no image')
+const image = props.currentEditingMovie.image ? ref(originalImage.value) : ref('no image')
 
 // EDIT MOVIE
 const handleFileInputChange = (event) => {
@@ -22,8 +24,16 @@ const handleFileInputChange = (event) => {
             editedMovie.value.image = file;
         };
         reader.readAsDataURL(file);
+        isNewImg.value = true
     }
 };
+
+const cancelNewImg = () => {
+    isNewImg.value = false
+    editedMovie.value.image = ''
+    image.value = props.currentEditingMovie.image ? originalImage : "no image"
+    console.log('originalImage', originalImage);
+}
 
 async function addImageToDb() {
     try {
@@ -50,7 +60,7 @@ async function addImageToDb() {
 async function editMovie() {
     try {
 
-        const imageId = await addImageToDb();
+        const imageId = isNewImg.value ? await addImageToDb() : null
 
         // HEADERS
         const headers = {
@@ -107,8 +117,16 @@ async function editMovie() {
                 :placeholder="currentEditingMovie.duration" />
 
             <label for="image">Image:</label>
-            <img :src="image" alt="">
+            <div class="container-img">
+                <img :src="originalImage" alt="">
+                <div v-if="isNewImg" class="new-image">
+                    <img src="icons/arrow-right.png" alt="">
+                    <img :src="image" alt="">
+                    <p class="delete-img-btn" @click="cancelNewImg">Annuler</p>
+                </div>
+            </div>
             <input type="file" ref="fileInput" @change="handleFileInputChange" />
+
 
             <button type="submit" class="edit-button">Submit</button>
 
@@ -160,12 +178,35 @@ async function editMovie() {
             color: white;
         }
 
-        img {
-            width: 20%;
-            object-fit: cover;
-            margin: 1em 0;
-        }
+        .container-img {
+            display: flex;
+            align-items: center;
+            flex-direction: row;
 
+            img {
+                width: 20%;
+                object-fit: cover;
+                margin: 1em 0;
+            }
+
+            .delete-img-btn {
+                background-color: white;
+                color: rgb(181, 142, 142);
+                padding: 0.5em 1em;
+                border-radius: 8px;
+                cursor: pointer;
+                margin-left: 1em;
+                font-size: .8em;
+                width: fit-content;
+                // display: none;
+            }
+
+            .new-image {
+                display: flex;
+                align-items: center;
+                gap: 1em;
+            }
+        }
 
         .edit-button {
             padding: 10px;
