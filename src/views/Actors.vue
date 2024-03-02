@@ -2,12 +2,14 @@
 import { onMounted, ref, toRaw } from "vue";
 import axios from "axios";
 import ActorCard from "../components/ActorCard.vue";
+import AddActorForm from "../components/AddActorForm.vue";
 
 let data = ref("");
 let token = localStorage.getItem("token");
+const isAddActor = ref(false);
 
-onMounted(async () => {
-  const response = await axios.get("http://127.0.0.1:8000/api/actors?page=1", {
+async function fetchData() {
+  const response = await axios.get("http://127.0.0.1:8000/api/actors", {
     headers: {
       Accept: "application/ld+json",
       Authorization: `Bearer ${token}`,
@@ -15,12 +17,29 @@ onMounted(async () => {
   });
   data.value = response.data["hydra:member"];
   console.log(toRaw(data.value));
+}
+
+
+onMounted(() => {
+  fetchData();
 });
+
+function toggleAddActor() {
+  isAddActor.value = !isAddActor.value;
+}
 </script>
 
 <template>
+  <div>
+    <AddActorForm :fetchData="fetchData" @close="toggleAddActor" v-if="isAddActor" />
+  </div>
+
+  <div class="crud">
+    <div class="addActor" @click="toggleAddActor">Ajouter un acteur</div>
+  </div>
+
   <div class="gallery">
-    <ActorCard v-for="actor in data" :key="actor.id" :actor="actor" />
+    <ActorCard v-for="actor in data" :key="actor.id" :actor="actor" :fetchData="fetchData" />
   </div>
 </template>
 
@@ -36,5 +55,25 @@ onMounted(async () => {
   // background-color: #f4f4f4; // Une couleur de fond légère pour contraster avec les cartes
   border-radius: 12px;
   // box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.crud {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2em;
+  gap: 1em;
+
+  .addActor {
+    width: 10em;
+    height: 3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #A76571;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+  }
 }
 </style>

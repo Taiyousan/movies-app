@@ -1,7 +1,32 @@
 <script setup>
-defineProps({
-  actor: Object,
-});
+import { defineProps, onMounted } from "vue";
+import axios from "axios";
+const { actor, fetchData } = defineProps(["actor", "fetchData"]);
+
+
+const baseUrl = "http://127.0.0.1:8000/api"
+const token = localStorage.getItem("token")
+
+onMounted(() => {
+  console.log(actor)
+})
+
+async function deleteActor() {
+  const actorId = actor["@id"].split("/").pop()
+  try {
+    const response = await axios.delete(`${baseUrl}/actors/${actorId}`, {
+      headers: {
+        Accept: "application/ld+json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    fetchData()
+  }
+  catch (error) {
+    console.log(error)
+  }
+}
+
 </script>
 
 <template>
@@ -14,13 +39,11 @@ defineProps({
     </ul>
   </div> -->
   <div class="actor-card">
-    <div class="actor-img">
-      <img src="img/mark-ruffalo.webp" alt="">
-    </div>
+    <div class="delete" @click="deleteActor">Supprimer</div>
     <div class="actor-name">
       <p>{{ actor.firstName }} {{ actor.lastName }}</p>
     </div>
-    <div class="actor-nationality">
+    <div class="actor-nationality" v-if="actor.nationality.name">
       <p>{{ actor.nationality.name }}</p>
     </div>
     <div class="actor-movie-list">
@@ -54,7 +77,7 @@ defineProps({
     }
   }
 
-  .actor-name {
+  .delete {
     height: 2em;
     display: flex;
     justify-content: center;
@@ -63,6 +86,25 @@ defineProps({
 
     color: white;
     font-size: 0.8em;
+    background-color: rgb(211, 0, 0);
+    border-radius: 20px;
+    padding: 1em 5em;
+
+    margin: 1em;
+
+    cursor: pointer;
+  }
+
+  .actor-name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    color: white;
+    font-size: 0.8em;
+
+    margin: 1em;
 
     p {
       // background-color: rgba(0, 0, 0, 0.436);
