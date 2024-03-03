@@ -2,11 +2,13 @@
 import { onMounted, ref, toRaw } from "vue";
 import axios from "axios";
 import CategoryCard from "../components/CategoryCard.vue";
+import AddCategoryForm from "../components/AddCategoryForm.vue";
 
 let data = ref("");
 let token = ref(localStorage.getItem("token"));
+const isAddCategory = ref(false);
 
-onMounted(async () => {
+async function fetchData() {
   const response = await axios.get(
     "http://127.0.0.1:8000/api/categories?page=1",
     {
@@ -17,11 +19,25 @@ onMounted(async () => {
     }
   );
   data.value = response.data["hydra:member"];
+}
+
+function toggleAddCategory() {
+  isAddCategory.value = !isAddCategory.value;
+}
+
+onMounted(() => {
+  fetchData();
 });
+
+
 </script>
 
 <template>
+  <AddCategoryForm :fetchData="fetchData" v-if="isAddCategory" @close="toggleAddCategory" />
   <div class="titre"><h1>CATEGORIES</h1></div>
+  <div class="crud">
+    <div class="addCategory" @click="toggleAddCategory">Ajouter une catégorie</div>
+  </div>
   <div class="gallery">
     <CategoryCard
       v-for="category in data"
@@ -61,6 +77,26 @@ onMounted(async () => {
   h1 {
     font-size: 24px;
     color: #333;
+  }
+}
+
+.crud {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2em;
+  gap: 1em;
+
+  .addCategory {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #A76571;
+    color: white;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    padding: 1em 2em;
   }
 }
 
