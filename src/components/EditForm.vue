@@ -10,8 +10,8 @@ const editedMovie = ref({
     image: ''
 })
 const isNewImg = ref(false)
-const originalImage = props.currentEditingMovie.image ? ref('http://127.0.0.1:8000/uploads/' + props.currentEditingMovie.image.filePath) : ref('no image')
-const image = props.currentEditingMovie.image ? ref(originalImage.value) : ref('no image')
+const originalImage = props.currentEditingMovie.image ? ref('http://127.0.0.1:8000/uploads/' + props.currentEditingMovie.image.filePath) : ref('img/placeholder.png')
+const image = props.currentEditingMovie.image ? ref(originalImage.value) : ref('img/placeholder.png')
 
 // EDIT MOVIE
 const handleFileInputChange = (event) => {
@@ -31,7 +31,7 @@ const handleFileInputChange = (event) => {
 const cancelNewImg = () => {
     isNewImg.value = false
     editedMovie.value.image = ''
-    image.value = props.currentEditingMovie.image ? originalImage : "no image"
+    image.value = props.currentEditingMovie.image ? originalImage : "img/placeholder.png"
     console.log('originalImage', originalImage);
 }
 
