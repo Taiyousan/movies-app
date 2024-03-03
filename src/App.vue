@@ -28,7 +28,7 @@ function logout() {
 
 <template>
   <header class="header-home" v-if="token">
-    <div class="logo-container"><img src="img/logo.svg" alt=""></div>
+    <div class="logo-container"><img src="/img/logo.svg" alt=""></div>
     <nav>
       <RouterLink to="/"><img src="/icons/home.png" alt=""><span>Accueil</span></RouterLink>
       <RouterLink to="/movies"><img src="/icons/movie.png" alt=""><span>Films</span></RouterLink>
