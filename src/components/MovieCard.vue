@@ -30,7 +30,7 @@ async function deleteMovie(id) {
 
 <template>
   <div
-    :style="{ backgroundImage: movie.image ? `url(http://127.0.0.1:8000/uploads/${movie.image.filePath})` : 'url(http://127.0.0.1:8000/uploads/65ba12d8a3baa_resultats.png)' }"
+    :style="{ backgroundImage: movie.image ? `url(http://127.0.0.1:8000/uploads/${movie.image.filePath})` : 'url(img/placeholder.png)' }"
     class="movie-card">
     <div class="movie-card-content">
       <div class="movie-card-title">
