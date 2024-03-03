@@ -32,16 +32,36 @@ onMounted(async () => {
 </template>
 
 <style scoped lang="scss">
+/* Categories.vue */
+
 .gallery {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin: 2em auto;
-  gap: 2em;
-  padding: 2em;
-  max-width: 1200px; // Adaptez en fonction de la largeur désirée
-  background-color: #f4f4f4; // Une couleur de fond légère pour contraster avec les cartes
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-gap: 20px;
+  justify-items: center;
+  align-items: start; /* Aligner le contenu en haut */
+
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #f4f4f4;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
+
+.gallery > * {
+  width: 100%;
+  max-width: 300px;
+}
+
+.titre {
+  text-align: center;
+  margin-bottom: 20px;
+
+  h1 {
+    font-size: 24px;
+    color: #333;
+  }
+}
+
 </style>
