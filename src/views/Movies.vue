@@ -103,14 +103,14 @@ function handleIsModalEdit(bool) {
   </div>
   <div class="pagination">
     <div class="prev page" @click="changePage(page - 1)" v-if="page !== 1">
-      <img src="/icons/arrow-left.png" alt="">
+      <img src="/src/assets/icons/arrow-left.png" alt="">
     </div>
     <div v-for="i in parseInt(pagesTotal)" :key="i" class="page" @click="changePage(i)"
       :class="{ 'active-page': i === page }">
       {{ i }}
     </div>
     <div class="next page" v-if="nextPageUrl && page !== parseInt(pagesTotal)" @click="changePage(page + 1)">
-      <img src="/icons/arrow-right.png" alt="">
+      <img src="/src/assets/icons/arrow-right.png" alt="">
     </div>
   </div>
   <div class="gallery" v-if="!isNoResults && isLoaded">
