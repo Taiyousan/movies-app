@@ -5,7 +5,7 @@ import axios from "axios";
 
 // Définissez les propriétés reçues de la Card
 const { movie, detailsPage, canEdit, fetchData } = defineProps(["movie", "detailsPage", "canEdit", "fetchData"]);
-const baseUrl = "http://127.0.0.1:8000/api";
+const baseUrl = import.meta.env.VITE_BASE_URL;
 const token = localStorage.getItem("token");
 // Définissez les événements que vous prévoyez d'émettre
 const emit = defineEmits();

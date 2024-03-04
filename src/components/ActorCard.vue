@@ -4,7 +4,7 @@ import axios from "axios";
 const { actor, fetchData } = defineProps(["actor", "fetchData"]);
 
 
-const baseUrl = "http://127.0.0.1:8000/api"
+const baseUrl = import.meta.env.VITE_BASE_URL
 const token = localStorage.getItem("token")
 
 onMounted(() => {
