@@ -51,7 +51,7 @@ onMounted(async () => {
       <div class="casting">
         <p class="title">Casting</p>
         <div class="actors" v-for="actor in data.actors">
-          <img src="/img/mark-ruffalo.webp" alt="">
+          <!-- <img src="/img/mark-ruffalo.webp" alt=""> -->
           <p>{{ actor.firstName }} {{ actor.lastName }}</p>
         </div>
       </div>
@@ -158,7 +158,7 @@ onMounted(async () => {
         text-align: center;
         font-weight: bold;
         font-size: 0.8em;
-        padding-top: 1em;
+        // padding-top: 1em;
       }
     }
   }
