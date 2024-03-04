@@ -7,18 +7,24 @@ import AddCategoryForm from "../components/AddCategoryForm.vue";
 let data = ref("");
 let token = ref(localStorage.getItem("token"));
 const isAddCategory = ref(false);
+const baseUrlApi = import.meta.env.VITE_BASE_URL_API;
 
 async function fetchData() {
-  const response = await axios.get(
-    "http://127.0.0.1:8000/api/categories?page=1",
-    {
-      headers: {
-        Accept: "application/ld+json",
-        Authorization: `Bearer ${token.value}`,
-      },
-    }
-  );
-  data.value = response.data["hydra:member"];
+  try {
+    const response = await axios.get(
+      `${baseUrlApi}/categories?page=1`,
+      {
+        headers: {
+          Accept: "application/ld+json",
+          Authorization: `Bearer ${token.value}`,
+        },
+      }
+    );
+    data.value = response.data["hydra:member"];
+  } catch (error) {
+    console.error(error);
+    window.location.href = "/login";
+  }
 }
 
 function toggleAddCategory() {
@@ -34,16 +40,14 @@ onMounted(() => {
 
 <template>
   <AddCategoryForm :fetchData="fetchData" v-if="isAddCategory" @close="toggleAddCategory" />
-  <div class="titre"><h1>CATEGORIES</h1></div>
+  <div class="titre">
+    <h1>CATEGORIES</h1>
+  </div>
   <div class="crud">
     <div class="addCategory" @click="toggleAddCategory">Ajouter une catégorie</div>
   </div>
   <div class="gallery">
-    <CategoryCard
-      v-for="category in data"
-      :key="category.id"
-      :category="category"
-    />
+    <CategoryCard v-for="category in data" :key="category.id" :category="category" />
   </div>
 </template>
 
@@ -55,7 +59,8 @@ onMounted(() => {
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   grid-gap: 20px;
   justify-items: center;
-  align-items: start; /* Aligner le contenu en haut */
+  align-items: start;
+  /* Aligner le contenu en haut */
 
   padding: 20px;
   max-width: 1200px;
@@ -65,7 +70,7 @@ onMounted(() => {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
-.gallery > * {
+.gallery>* {
   width: 100%;
   max-width: 300px;
 }
@@ -91,7 +96,7 @@ onMounted(() => {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #A76571;
+    background-color: #55868C;
     color: white;
     border-radius: 8px;
     text-align: center;
@@ -99,5 +104,4 @@ onMounted(() => {
     padding: 1em 2em;
   }
 }
-
 </style>

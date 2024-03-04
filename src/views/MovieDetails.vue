@@ -9,9 +9,10 @@ let data = ref("");
 let id = useRoute().params.id;
 let token = localStorage.getItem("token");
 let isLoaded = ref(false);
+const baseUrlApi = import.meta.env.VITE_BASE_URL_API;
 
 onMounted(async () => {
-  const response = await axios.get("http://127.0.0.1:8000/api/movies/" + id, {
+  const response = await axios.get(`${baseUrlApi}/movies/` + id, {
     headers: {
       Accept: "application/json",
       Authorization: `Bearer ${token}`,
@@ -50,7 +51,7 @@ onMounted(async () => {
       <div class="casting">
         <p class="title">Casting</p>
         <div class="actors" v-for="actor in data.actors">
-          <img src="/img/mark-ruffalo.webp" alt="">
+          <!-- <img src="/img/mark-ruffalo.webp" alt=""> -->
           <p>{{ actor.firstName }} {{ actor.lastName }}</p>
         </div>
       </div>
@@ -58,7 +59,7 @@ onMounted(async () => {
   </div>
 
   <div class="loader-container" v-else>
-    <pulse-loader :loading="loading" color="orange" :size="size"></pulse-loader>
+    <pulse-loader color="#55868C"></pulse-loader>
   </div>
 </template>
 
@@ -71,7 +72,7 @@ onMounted(async () => {
     font-size: 2em;
     font-weight: bold;
     text-transform: uppercase;
-    background-color: #A76571;
+    background-color: #55868C;
     padding: 1em;
     border-radius: 8px;
     color: white;
@@ -133,7 +134,7 @@ onMounted(async () => {
       font-size: 1em;
       font-weight: bold;
       text-transform: uppercase;
-      background-color: #A76571;
+      background-color: #55868C;
       padding: 1em;
       border-radius: 8px;
       color: white;
@@ -157,7 +158,7 @@ onMounted(async () => {
         text-align: center;
         font-weight: bold;
         font-size: 0.8em;
-        padding-top: 1em;
+        // padding-top: 1em;
       }
     }
   }

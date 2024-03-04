@@ -13,7 +13,7 @@ defineProps({
       <!-- <MovieCard v-for="movie in category.movies" :key="movie.id" :movie="movie" /> -->
       <!-- <p v-for="movie in category.movies">{{ movie }}</p> -->
       <RouterLink v-for="movie in category.movies" :key="movie.id"
-        :to="{ name: 'movieDetails', params: { id: movie.id } }" v-if="!detailsPage" class="link">
+        :to="{ name: 'movieDetails', params: { id: movie.id } }"  class="link">
         {{ movie.title }}
       </RouterLink>
     </div>

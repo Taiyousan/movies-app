@@ -9,13 +9,14 @@ const searchResults = ref([]);
 let timeout;
 const emit = defineEmits();
 const token = defineProps(["token"]);
+const baseUrlApi = import.meta.env.VITE_BASE_URL_API;
 
 function handleSearch() {
   emit("isSearchLoaded", false);
   let config = {
     method: "get",
     maxBodyLength: Infinity,
-    url: `http://127.0.0.1:8000/api/movies?title=${searchQuery.value}`,
+    url: `${baseUrlApi}/movies?title=${searchQuery.value}`,
     headers: {
       Accept: "application/ld+json",
       Authorization: `Bearer ${token.token}`,

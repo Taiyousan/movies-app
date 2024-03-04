@@ -1,13 +1,17 @@
 <script setup>
 import { onMounted, ref, toRaw } from "vue";
+import { useRouter } from "vue-router";
+
 import axios from "axios";
 import MovieCard from "../components/MovieCard.vue";
 import ActorCard from "../components/ActorCard.vue";
 
+const router = useRouter();
 let data = ref("");
 let randomMovies = ref("");
 let randomActors = ref(""); // Nouvelle référence pour le deuxième appel API
 let token = localStorage.getItem("token");
+const baseUrlApi = import.meta.env.VITE_BASE_URL_API;
 
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -20,7 +24,7 @@ async function fetchData() {
   if (token) {
     try {
       const response = await axios.get(
-        "http://127.0.0.1:8000/api/movies?page=1",
+        `${baseUrlApi}/movies?page=1`,
         {
           headers: {
             Accept: "application/ld+json",
@@ -36,7 +40,10 @@ async function fetchData() {
       console.error("Erreur lors de la récupération des films:", error);
     }
   } else {
+    // router.push({ name: 'login' });
+    // window.location.reload();
     window.location.href = "/login";
+
   }
 }
 
@@ -44,7 +51,7 @@ async function fetchrandomActors() {
   // Fonction pour le deuxième appel API
   try {
     const response = await axios.get(
-      "http://127.0.0.1:8000/api/actors?page=1",
+      `${baseUrlApi}/actors?page=1`,
       {
         headers: {
           Accept: "application/ld+json",
@@ -60,6 +67,7 @@ async function fetchrandomActors() {
       "Erreur lors de la récupération des données de la deuxième API:",
       error
     );
+    window.location.href = "/login";
   }
 }
 
