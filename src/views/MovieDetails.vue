@@ -10,6 +10,7 @@ let id = useRoute().params.id;
 let token = localStorage.getItem("token");
 let isLoaded = ref(false);
 const baseUrlApi = import.meta.env.VITE_BASE_URL_API;
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
 onMounted(async () => {
   const response = await axios.get(`${baseUrlApi}/movies/` + id, {
@@ -37,7 +38,8 @@ onMounted(async () => {
     </div> -->
     <div class="detail">
       <div class="detail-img">
-        <img src="/img/tenet.jpg" alt="">
+        <img :src="`${baseUrl}/uploads/${data.image.filePath}`" alt="" v-if="data.image">
+        <img src="/img/placeholder.png" alt="" v-else>
       </div>
       <div class="detail-title">{{ data.title }}</div>
       <div class="detail-info">
