@@ -7,9 +7,6 @@ const { actor, fetchData } = defineProps(["actor", "fetchData"]);
 const baseUrlApi = import.meta.env.VITE_BASE_URL_API
 const token = localStorage.getItem("token")
 
-onMounted(() => {
-  console.log(actor)
-})
 
 async function deleteActor() {
   const actorId = actor["@id"].split("/").pop()

@@ -17,7 +17,6 @@ async function fetchData() {
     },
   });
   data.value = response.data["hydra:member"];
-  console.log(toRaw(data.value));
 }
 
 

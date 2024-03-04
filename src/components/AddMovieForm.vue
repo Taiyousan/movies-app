@@ -37,7 +37,6 @@ async function getActors(
             lastName: actor.lastName,
         };
     });
-    console.log(toRaw(actorsList.value));
 }
 
 // GET CATEGORIES
@@ -51,7 +50,6 @@ async function getCategories(
         },
     });
     categoriesList.value = response.data["hydra:member"];
-    console.log(toRaw(categoriesList.value));
 }
 
 // POST MOVIE
@@ -72,7 +70,6 @@ async function postMovie() {
                 Authorization: `Bearer ${token}`,
             },
         });
-        console.log(response);
         emit("close", true);
         isError.value = false;
     } catch (error) {
@@ -84,7 +81,6 @@ async function postMovie() {
 
 // ADD IMG
 async function addImageToDb() {
-    console.log('image', image.value);
     try {
         // HEADERS
         const headers = {

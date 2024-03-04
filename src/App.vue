@@ -10,7 +10,6 @@ const router = useRouter();
 
 // Methods
 function logout() {
-  console.log("logout");
   localStorage.removeItem("token");
   // router.push({ name: 'login' });
   // window.location.reload();
