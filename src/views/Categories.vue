@@ -7,10 +7,11 @@ import AddCategoryForm from "../components/AddCategoryForm.vue";
 let data = ref("");
 let token = ref(localStorage.getItem("token"));
 const isAddCategory = ref(false);
+const baseUrlApi = import.meta.env.VITE_BASE_URL_API;
 
 async function fetchData() {
   const response = await axios.get(
-    "http://127.0.0.1:8000/api/categories?page=1",
+    `${baseUrlApi}/categories?page=1`,
     {
       headers: {
         Accept: "application/ld+json",

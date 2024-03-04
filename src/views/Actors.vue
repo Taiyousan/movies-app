@@ -7,9 +7,10 @@ import AddActorForm from "../components/AddActorForm.vue";
 let data = ref("");
 let token = localStorage.getItem("token");
 const isAddActor = ref(false);
+const baseUrlApi = import.meta.env.VITE_BASE_URL_API;
 
 async function fetchData() {
-  const response = await axios.get("http://127.0.0.1:8000/api/actors", {
+  const response = await axios.get(`${baseUrlApi}/actors`, {
     headers: {
       Accept: "application/ld+json",
       Authorization: `Bearer ${token}`,

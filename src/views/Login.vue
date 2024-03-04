@@ -1,20 +1,26 @@
 <script setup>
 import { onMounted, ref, toRaw } from "vue";
 import axios from "axios";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const username = ref("");
 const password = ref("");
 let token = ref(localStorage.getItem("token"));
+const baseUrlApi = import.meta.env.VITE_BASE_URL_API;
 
 const submitForm = () => {
   axios
-    .post("http://127.0.0.1:8000/api/login_check", {
+    .post(`${baseUrlApi}/login_check`, {
       username: username.value,
       password: password.value,
     })
     .then((response) => {
       localStorage.setItem("token", response.data.token);
-      location.reload();
+      // router.push({ name: 'login' });
+      // window.location.reload();
+      window.location.href = "/";
+
     })
     .catch((error) => {
       console.log(error);

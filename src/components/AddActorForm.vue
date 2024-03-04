@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, toRaw, defineEmits, defineProps } from "vue";
 import axios from "axios";
-const baseUrl = import.meta.env.VITE_BASE_URL;
+const baseUrlApi = import.meta.env.VITE_BASE_URL_API;
 const token = localStorage.getItem("token");
 
 const emit = defineEmits();
@@ -17,7 +17,7 @@ const lastName = ref("");
 
 // GET ACTORS
 async function getNationalities(
-    url = `${baseUrl}/nationalities`
+    url = `${baseUrlApi}/nationalities`
 ) {
     const response = await axios.get(url, {
         headers: {
@@ -46,7 +46,7 @@ async function postActor() {
         nationality: selectedNationality.value.idUrl,
     };
     try {
-        const response = await axios.post(`${baseUrl}/actors`, data, {
+        const response = await axios.post(`${baseUrlApi}/actors`, data, {
             headers: {
                 Accept: "application/ld+json",
                 Authorization: `Bearer ${token}`,
