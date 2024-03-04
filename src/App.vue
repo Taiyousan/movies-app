@@ -12,7 +12,9 @@ const router = useRouter();
 function logout() {
   console.log("logout");
   localStorage.removeItem("token");
-  window.location.href = "/login";
+  // router.push({ name: 'login' });
+  // window.location.reload();
+  window.location.href = "/";
 }
 
 // onMounted(async () => {

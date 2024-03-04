@@ -1,7 +1,9 @@
 <script setup>
 import { onMounted, ref, toRaw } from "vue";
 import axios from "axios";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const username = ref("");
 const password = ref("");
 let token = ref(localStorage.getItem("token"));
@@ -15,7 +17,10 @@ const submitForm = () => {
     })
     .then((response) => {
       localStorage.setItem("token", response.data.token);
-      location.reload();
+      // router.push({ name: 'login' });
+      // window.location.reload();
+      window.location.href = "/";
+
     })
     .catch((error) => {
       console.log(error);

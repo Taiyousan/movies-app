@@ -1,9 +1,12 @@
 <script setup>
 import { onMounted, ref, toRaw } from "vue";
+import { useRouter } from "vue-router";
+
 import axios from "axios";
 import MovieCard from "../components/MovieCard.vue";
 import ActorCard from "../components/ActorCard.vue";
 
+const router = useRouter();
 let data = ref("");
 let randomMovies = ref("");
 let randomActors = ref(""); // Nouvelle référence pour le deuxième appel API
@@ -37,7 +40,10 @@ async function fetchData() {
       console.error("Erreur lors de la récupération des films:", error);
     }
   } else {
-    window.location.href = "/login";
+    // router.push({ name: 'login' });
+    // window.location.reload();
+    window.location.href = "/";
+
   }
 }
 
