@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, toRaw, defineEmits } from "vue";
 import axios from "axios";
-const baseUrl = "http://127.0.0.1:8000/api";
+const baseUrl = import.meta.env.VITE_BASE_URL;
 const token = localStorage.getItem("token");
 
 const emit = defineEmits();
