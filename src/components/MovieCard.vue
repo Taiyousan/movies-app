@@ -48,6 +48,10 @@ async function deleteMovie(id) {
           <p class="info-text">{{ movie.releaseDate }}</p>
         </div>
         <div class="info">
+          <p class="info-libelle">Catégorie </p>
+          <p class="info-text">{{ movie.category.name }}</p>
+        </div>
+        <div class="info">
           <p class="info-libelle">Durée (en minutes) </p>
           <p class="info-text">{{ movie.duration }}</p>
         </div>
