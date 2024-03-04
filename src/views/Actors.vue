@@ -20,7 +20,7 @@ async function fetchData() {
     data.value = response.data["hydra:member"];
   } catch (error) {
     console.error(error);
-    window.location.href = "/";
+    window.location.href = "/login";
   }
 }
 

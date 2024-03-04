@@ -44,7 +44,7 @@ async function fetchData(
     isLoaded.value = true;
   } catch (error) {
     console.error(error);
-    window.location.href = "/";
+    window.location.href = "/login";
   }
 }
 

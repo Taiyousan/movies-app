@@ -151,7 +151,7 @@ onMounted(() => {
             <div class="container-img">
                 <img :src="originalImage" alt="">
                 <div v-if="isNewImg" class="new-image">
-                    <img src="/icons/arrow-right.png" alt="">
+                    <img src="/src/assets/icons/arrow-right.png" alt="">
                     <img :src="image" alt="">
                     <p class="delete-img-btn" @click="cancelNewImg">Annuler</p>
                 </div>

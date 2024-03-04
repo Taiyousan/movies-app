@@ -13,7 +13,7 @@ function logout() {
   localStorage.removeItem("token");
   // router.push({ name: 'login' });
   // window.location.reload();
-  window.location.href = "/";
+  window.location.href = "/login";
 }
 
 // onMounted(async () => {
