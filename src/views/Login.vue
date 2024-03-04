@@ -29,76 +29,69 @@ const submitForm = () => {
 </script>
 
 <template>
-  <div v-if="!token" class="form-container">
-    <form @submit.prevent="submitForm">
-      <label for="username">Username:</label>
-      <input type="username" id="username" v-model="username" required />
-      <label for="password">Password:</label>
-      <input type="password" id="password" v-model="password" required />
-      <button type="submit">Submit</button>
+  <div class="form-container">
+    <form class="form" @submit.prevent="submitForm">
+      <div class="input-group">
+        <label class="label" for="username">Username:</label>
+        <input class="input" type="text" id="username" v-model="username" required />
+      </div>
+      <div class="input-group">
+        <label class="label" for="password">Password:</label>
+        <input class="input" type="password" id="password" v-model="password" required />
+      </div>
+      <button class="button" type="submit">Submit</button>
     </form>
-  </div>
-  <div class="form-container logout" v-else>
     <div v-if="token" class="message">Vous êtes connecté !</div>
   </div>
 </template>
 
+
 <style scoped lang="scss">
 .form-container {
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 
-  &.logout {
-    position: block;
-    pointer-events: none;
-  }
+.form {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
+.input-group {
+  margin-bottom: 1rem;
+}
 
-  form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 5em;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    border-radius: 8px;
-  }
+.label {
+  font-size: 1.2rem;
+}
 
-  label {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-  }
+.input {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  width: 100%;
+}
 
-  input {
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    border: 1px solid #ccc;
-    margin-bottom: 1rem;
-    width: 100%;
-    max-width: 20rem;
-  }
+.button {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: none;
+  background-color: #0077ff;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
 
-  button {
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    border: none;
-    background-color: #0077ff;
-    color: white;
-    font-size: 1.2rem;
-    cursor: pointer;
-  }
-
-  .message {
-    background-color: #4caf50;
-    color: white;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    margin: 2rem;
-  }
+.message {
+  background-color: #4caf50;
+  color: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-top: 1rem;
 }
 </style>
+
