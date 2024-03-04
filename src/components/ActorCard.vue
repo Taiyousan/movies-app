@@ -45,8 +45,7 @@ async function deleteActor() {
     </div>
     <div class="actor-movie-list">
       <!-- <p v-for="movie in actor.movies">{{ movie.title }}</p> -->
-      <RouterLink v-for="movie in actor.movies" :to="{ name: 'movieDetails', params: { id: movie.id } }"
-         class="link">
+      <RouterLink v-for="movie in actor.movies" :to="{ name: 'movieDetails', params: { id: movie.id } }" class="link">
         {{ movie.title }}
       </RouterLink>
     </div>
@@ -105,7 +104,7 @@ async function deleteActor() {
 
     p {
       // background-color: rgba(0, 0, 0, 0.436);
-      background-color: #A76571;
+      background-color: #55868C;
       border-radius: 20px;
       padding: 1em 5em;
     }

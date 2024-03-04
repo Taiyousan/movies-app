@@ -70,7 +70,7 @@ function toggleAddActor() {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #A76571;
+    background-color: #55868C;
     color: white;
     border-radius: 8px;
     cursor: pointer;
