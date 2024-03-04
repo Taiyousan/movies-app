@@ -1,5 +1,5 @@
 <script setup>
-import { ref, toRaw } from 'vue'
+import { onMounted, ref, toRaw } from 'vue'
 import axios from 'axios'
 const token = localStorage.getItem('token')
 const props = defineProps(['currentEditingMovie', 'fetchData', 'handleIsModalEdit'])
@@ -9,11 +9,13 @@ const editedMovie = ref({
     title: '',
     description: '',
     duration: '',
-    image: ''
+    image: '',
+    category: ''
 })
 const isNewImg = ref(false)
 const originalImage = props.currentEditingMovie.image ? ref(`${baseUrl}/uploads/` + props.currentEditingMovie.image.filePath) : ref('img/placeholder.png')
 const image = props.currentEditingMovie.image ? ref(originalImage.value) : ref('img/placeholder.png')
+const categoriesList = ref([])
 
 // EDIT MOVIE
 const handleFileInputChange = (event) => {
@@ -73,7 +75,8 @@ async function editMovie() {
             ...(editedMovie.value.title !== "" ? { title: editedMovie.value.title } : {}),
             ...(editedMovie.value.description !== "" ? { description: editedMovie.value.description } : {}),
             ...(editedMovie.value.duration !== "" ? { duration: parseInt(editedMovie.value.duration) } : {}),
-            ...(imageId ? { image: imageId } : {})
+            ...(imageId ? { image: imageId } : {}),
+            ...(editedMovie.value.category ? { category: editedMovie.value.category["@id"] } : {})
         };
 
         // REQUEST
@@ -96,6 +99,23 @@ async function editMovie() {
     }
 }
 
+// GET CATEGORIES
+async function getCategories(
+    url = `${baseUrlApi}/categories`
+) {
+    const response = await axios.get(url, {
+        headers: {
+            Accept: "application/ld+json",
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    categoriesList.value = response.data["hydra:member"];
+}
+
+onMounted(() => {
+    getCategories()
+})
+
 
 </script>
 
@@ -117,6 +137,15 @@ async function editMovie() {
             <label for="editDuration">Durée (en minutes):</label>
             <input type="number" id="editDuration" name="editDuration" v-model="editedMovie.duration"
                 :placeholder="currentEditingMovie.duration" />
+
+            <label for="categories">Catégorie</label>
+            <select id="categories" v-model="editedMovie.category">
+                <option value="" disabled>Choisissez une catégorie</option>
+                <option v-for="categorie in categoriesList" :key="categorie.id" :value="categorie">{{
+                categorie.name }}
+                </option>
+            </select>
+
 
             <label for="image">Image:</label>
             <div class="container-img">
@@ -179,7 +208,7 @@ async function editMovie() {
             border: 1px solid rgb(0, 0, 0);
             border-radius: 4px;
             background-color: transparent;
-            color: white;
+            color: rgb(0, 0, 0);
         }
 
         .container-img {
