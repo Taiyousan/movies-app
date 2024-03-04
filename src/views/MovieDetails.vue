@@ -9,9 +9,10 @@ let data = ref("");
 let id = useRoute().params.id;
 let token = localStorage.getItem("token");
 let isLoaded = ref(false);
+const baseUrlApi = import.meta.env.VITE_BASE_URL_API;
 
 onMounted(async () => {
-  const response = await axios.get("http://127.0.0.1:8000/api/movies/" + id, {
+  const response = await axios.get(`${baseUrlApi}/movies/` + id, {
     headers: {
       Accept: "application/json",
       Authorization: `Bearer ${token}`,

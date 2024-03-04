@@ -4,7 +4,7 @@ import axios from "axios";
 const { actor, fetchData } = defineProps(["actor", "fetchData"]);
 
 
-const baseUrl = import.meta.env.VITE_BASE_URL
+const baseUrlApi = import.meta.env.VITE_BASE_URL_API
 const token = localStorage.getItem("token")
 
 onMounted(() => {
@@ -14,7 +14,7 @@ onMounted(() => {
 async function deleteActor() {
   const actorId = actor["@id"].split("/").pop()
   try {
-    const response = await axios.delete(`${baseUrl}/actors/${actorId}`, {
+    const response = await axios.delete(`${baseUrlApi}/actors/${actorId}`, {
       headers: {
         Accept: "application/ld+json",
         Authorization: `Bearer ${token}`,

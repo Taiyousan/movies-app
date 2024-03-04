@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, toRaw, defineEmits, defineProps } from "vue";
 import axios from "axios";
-const baseUrl = import.meta.env.VITE_BASE_URL;
+const baseUrlApi = import.meta.env.VITE_BASE_URL_API;
 const token = localStorage.getItem("token");
 
 const emit = defineEmits();
@@ -22,7 +22,7 @@ async function postCategory() {
         name: name.value,
     };
     try {
-        const response = await axios.post(`${baseUrl}/categories`, data, {
+        const response = await axios.post(`${baseUrlApi}/categories`, data, {
             headers: {
                 Accept: "application/ld+json",
                 Authorization: `Bearer ${token}`,

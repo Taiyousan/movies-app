@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, toRaw, defineEmits } from "vue";
 import axios from "axios";
-const baseUrl = import.meta.env.VITE_BASE_URL;
+const baseUrlApi = import.meta.env.VITE_BASE_URL_API;
 const token = localStorage.getItem("token");
 
 const emit = defineEmits();
@@ -21,7 +21,7 @@ const image = ref("");
 
 // GET ACTORS
 async function getActors(
-    url = `${baseUrl}/actors`
+    url = `${baseUrlApi}/actors`
 ) {
     const response = await axios.get(url, {
         headers: {
@@ -42,7 +42,7 @@ async function getActors(
 
 // GET CATEGORIES
 async function getCategories(
-    url = `${baseUrl}/categories`
+    url = `${baseUrlApi}/categories`
 ) {
     const response = await axios.get(url, {
         headers: {
@@ -66,7 +66,7 @@ async function postMovie() {
         category: selectedCategory.value["@id"],
     };
     try {
-        const response = await axios.post(`${baseUrl}/movies`, data, {
+        const response = await axios.post(`${baseUrlApi}/movies`, data, {
             headers: {
                 Accept: "application/ld+json",
                 Authorization: `Bearer ${token}`,
@@ -95,7 +95,7 @@ async function addImageToDb() {
         const formData = new FormData();
         formData.append('file', image.value);
 
-        const response = await axios.post('http://127.0.0.1:8000/api/media_objects', formData, { headers });
+        const response = await axios.post(`${baseUrlApi}/media_objects`, formData, { headers });
         const imageId = response.data['@id'];
         return imageId;
     } catch (error) {

@@ -3,6 +3,8 @@ import { ref, toRaw } from 'vue'
 import axios from 'axios'
 const token = localStorage.getItem('token')
 const props = defineProps(['currentEditingMovie', 'fetchData', 'handleIsModalEdit'])
+const baseUrl = import.meta.env.VITE_BASE_URL
+const baseUrlApi = import.meta.env.VITE_BASE_URL_API
 const editedMovie = ref({
     title: '',
     description: '',
@@ -10,7 +12,7 @@ const editedMovie = ref({
     image: ''
 })
 const isNewImg = ref(false)
-const originalImage = props.currentEditingMovie.image ? ref('http://127.0.0.1:8000/uploads/' + props.currentEditingMovie.image.filePath) : ref('img/placeholder.png')
+const originalImage = props.currentEditingMovie.image ? ref(`${baseUrl}/uploads/` + props.currentEditingMovie.image.filePath) : ref('img/placeholder.png')
 const image = props.currentEditingMovie.image ? ref(originalImage.value) : ref('img/placeholder.png')
 
 // EDIT MOVIE
@@ -46,7 +48,7 @@ async function addImageToDb() {
         const formData = new FormData();
         formData.append('file', editedMovie.value.image);
 
-        const response = await axios.post('http://127.0.0.1:8000/api/media_objects', formData, { headers });
+        const response = await axios.post(`${baseUrlApi}/media_objects`, formData, { headers });
         const imageId = response.data['@id'];
         return imageId;
     } catch (error) {
@@ -77,7 +79,7 @@ async function editMovie() {
 
         // REQUEST
         await axios.patch(
-            `http://127.0.0.1:8000/api/movies/${props.currentEditingMovie.id}`,
+            `${baseUrlApi}/movies/${props.currentEditingMovie.id}`,
             updatedMovie,
             { headers }
         );

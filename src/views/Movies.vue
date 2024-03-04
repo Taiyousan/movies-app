@@ -18,6 +18,7 @@ let token = localStorage.getItem("token");
 const isModalEdit = ref(false);
 let currentEditingMovie = ref("");
 const isAddMovie = ref(false);
+const baseUrlApi = import.meta.env.VITE_BASE_URL_API;
 
 onMounted(() => {
   fetchData();
@@ -25,7 +26,7 @@ onMounted(() => {
 
 // FETCH DATA
 async function fetchData(
-  url = `http://127.0.0.1:8000/api/movies?page=${page.value}`
+  url = `${baseUrlApi}/movies?page=${page.value}`
 ) {
   isLoaded.value = false;
   const response = await axios.get(url, {
@@ -37,7 +38,7 @@ async function fetchData(
   data.value = response.data["hydra:member"];
   completeData.value = response.data["hydra:member"];
   nextPageUrl.value =
-    "http://127.0.0.1:8000" + response.data["hydra:view"]["hydra:next"];
+    baseUrlApi + response.data["hydra:view"]["hydra:next"];
   pagesTotal.value = response.data["hydra:view"]["hydra:last"].split("=")[1];
   isLoaded.value = true;
 }

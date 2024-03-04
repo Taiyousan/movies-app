@@ -5,7 +5,8 @@ import axios from "axios";
 
 // Définissez les propriétés reçues de la Card
 const { movie, detailsPage, canEdit, fetchData } = defineProps(["movie", "detailsPage", "canEdit", "fetchData"]);
-const baseUrl = import.meta.env.VITE_BASE_URL;
+const baseUrl= import.meta.env.VITE_BASE_URL;
+const baseUrlApi = import.meta.env.VITE_BASE_URL_API;
 const token = localStorage.getItem("token");
 // Définissez les événements que vous prévoyez d'émettre
 const emit = defineEmits();
@@ -17,7 +18,7 @@ const triggerEvent = (data) => {
 };
 
 async function deleteMovie(id) {
-  const url = `${baseUrl}/movies/${id}`;
+  const url = `${baseUrlApi}/movies/${id}`;
   const response = await axios.delete(url, {
     headers: {
       Accept: "application/ld+json",
@@ -30,7 +31,7 @@ async function deleteMovie(id) {
 
 <template>
   <div
-    :style="{ backgroundImage: movie.image ? `url(http://127.0.0.1:8000/uploads/${movie.image.filePath})` : 'url(img/placeholder.png)' }"
+    :style="{ backgroundImage: movie.image ? `url(${baseUrl}/uploads/${movie.image.filePath})` : 'url(img/placeholder.png)' }"
     class="movie-card">
     <div class="movie-card-content">
       <div class="movie-card-title">

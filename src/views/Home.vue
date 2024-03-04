@@ -8,6 +8,7 @@ let data = ref("");
 let randomMovies = ref("");
 let randomActors = ref(""); // Nouvelle référence pour le deuxième appel API
 let token = localStorage.getItem("token");
+const baseUrlApi = import.meta.env.VITE_BASE_URL_API;
 
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -20,7 +21,7 @@ async function fetchData() {
   if (token) {
     try {
       const response = await axios.get(
-        "http://127.0.0.1:8000/api/movies?page=1",
+        `${baseUrlApi}/movies?page=1`,
         {
           headers: {
             Accept: "application/ld+json",
@@ -44,7 +45,7 @@ async function fetchrandomActors() {
   // Fonction pour le deuxième appel API
   try {
     const response = await axios.get(
-      "http://127.0.0.1:8000/api/actors?page=1",
+      `${baseUrlApi}/actors?page=1`,
       {
         headers: {
           Accept: "application/ld+json",

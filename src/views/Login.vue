@@ -5,10 +5,11 @@ import axios from "axios";
 const username = ref("");
 const password = ref("");
 let token = ref(localStorage.getItem("token"));
+const baseUrlApi = import.meta.env.VITE_BASE_URL_API;
 
 const submitForm = () => {
   axios
-    .post("http://127.0.0.1:8000/api/login_check", {
+    .post(`${baseUrlApi}/login_check`, {
       username: username.value,
       password: password.value,
     })
