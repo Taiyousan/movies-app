@@ -28,19 +28,24 @@ onMounted(() => {
 async function fetchData(
   url = `${baseUrlApi}/movies?page=${page.value}`
 ) {
-  isLoaded.value = false;
-  const response = await axios.get(url, {
-    headers: {
-      Accept: "application/ld+json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  data.value = response.data["hydra:member"];
-  completeData.value = response.data["hydra:member"];
-  nextPageUrl.value =
-    baseUrlApi + response.data["hydra:view"]["hydra:next"];
-  pagesTotal.value = response.data["hydra:view"]["hydra:last"].split("=")[1];
-  isLoaded.value = true;
+  try {
+    isLoaded.value = false;
+    const response = await axios.get(url, {
+      headers: {
+        Accept: "application/ld+json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    data.value = response.data["hydra:member"];
+    completeData.value = response.data["hydra:member"];
+    nextPageUrl.value =
+      baseUrlApi + response.data["hydra:view"]["hydra:next"];
+    pagesTotal.value = response.data["hydra:view"]["hydra:last"].split("=")[1];
+    isLoaded.value = true;
+  } catch (error) {
+    console.error(error);
+    window.location.href = "/login";
+  }
 }
 
 
@@ -98,14 +103,14 @@ function handleIsModalEdit(bool) {
   </div>
   <div class="pagination">
     <div class="prev page" @click="changePage(page - 1)" v-if="page !== 1">
-      <img src="/icons/arrow-left.png" alt="">
+      <img src="/src/assets/icons/arrow-left.png" alt="">
     </div>
     <div v-for="i in parseInt(pagesTotal)" :key="i" class="page" @click="changePage(i)"
       :class="{ 'active-page': i === page }">
       {{ i }}
     </div>
     <div class="next page" v-if="nextPageUrl && page !== parseInt(pagesTotal)" @click="changePage(page + 1)">
-      <img src="/icons/arrow-right.png" alt="">
+      <img src="/src/assets/icons/arrow-right.png" alt="">
     </div>
   </div>
   <div class="gallery" v-if="!isNoResults && isLoaded">

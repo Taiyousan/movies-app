@@ -94,4 +94,3 @@ const submitForm = () => {
   margin-top: 1rem;
 }
 </style>
-

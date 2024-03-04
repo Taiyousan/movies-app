@@ -10,13 +10,18 @@ const isAddActor = ref(false);
 const baseUrlApi = import.meta.env.VITE_BASE_URL_API;
 
 async function fetchData() {
-  const response = await axios.get(`${baseUrlApi}/actors`, {
-    headers: {
-      Accept: "application/ld+json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  data.value = response.data["hydra:member"];
+  try {
+    const response = await axios.get(`${baseUrlApi}/actors`, {
+      headers: {
+        Accept: "application/ld+json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    data.value = response.data["hydra:member"];
+  } catch (error) {
+    console.error(error);
+    window.location.href = "/login";
+  }
 }
 
 

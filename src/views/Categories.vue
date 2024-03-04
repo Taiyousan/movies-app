@@ -10,16 +10,21 @@ const isAddCategory = ref(false);
 const baseUrlApi = import.meta.env.VITE_BASE_URL_API;
 
 async function fetchData() {
-  const response = await axios.get(
-    `${baseUrlApi}/categories?page=1`,
-    {
-      headers: {
-        Accept: "application/ld+json",
-        Authorization: `Bearer ${token.value}`,
-      },
-    }
-  );
-  data.value = response.data["hydra:member"];
+  try {
+    const response = await axios.get(
+      `${baseUrlApi}/categories?page=1`,
+      {
+        headers: {
+          Accept: "application/ld+json",
+          Authorization: `Bearer ${token.value}`,
+        },
+      }
+    );
+    data.value = response.data["hydra:member"];
+  } catch (error) {
+    console.error(error);
+    window.location.href = "/login";
+  }
 }
 
 function toggleAddCategory() {

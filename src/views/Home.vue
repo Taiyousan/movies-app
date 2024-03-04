@@ -42,7 +42,7 @@ async function fetchData() {
   } else {
     // router.push({ name: 'login' });
     // window.location.reload();
-    window.location.href = "/";
+    window.location.href = "/login";
 
   }
 }
@@ -67,6 +67,7 @@ async function fetchrandomActors() {
       "Erreur lors de la récupération des données de la deuxième API:",
       error
     );
+    window.location.href = "/login";
   }
 }
 

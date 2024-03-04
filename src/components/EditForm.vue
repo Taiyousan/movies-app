@@ -1,5 +1,5 @@
 <script setup>
-import { ref, toRaw } from 'vue'
+import { onMounted, ref, toRaw } from 'vue'
 import axios from 'axios'
 const token = localStorage.getItem('token')
 const props = defineProps(['currentEditingMovie', 'fetchData', 'handleIsModalEdit'])
@@ -9,11 +9,13 @@ const editedMovie = ref({
     title: '',
     description: '',
     duration: '',
-    image: ''
+    image: '',
+    category: ''
 })
 const isNewImg = ref(false)
 const originalImage = props.currentEditingMovie.image ? ref(`${baseUrl}/uploads/` + props.currentEditingMovie.image.filePath) : ref('img/placeholder.png')
 const image = props.currentEditingMovie.image ? ref(originalImage.value) : ref('img/placeholder.png')
+const categoriesList = ref([])
 
 // EDIT MOVIE
 const handleFileInputChange = (event) => {
@@ -73,7 +75,8 @@ async function editMovie() {
             ...(editedMovie.value.title !== "" ? { title: editedMovie.value.title } : {}),
             ...(editedMovie.value.description !== "" ? { description: editedMovie.value.description } : {}),
             ...(editedMovie.value.duration !== "" ? { duration: parseInt(editedMovie.value.duration) } : {}),
-            ...(imageId ? { image: imageId } : {})
+            ...(imageId ? { image: imageId } : {}),
+            ...(editedMovie.value.category ? { category: editedMovie.value.category["@id"] } : {})
         };
 
         // REQUEST
@@ -96,8 +99,26 @@ async function editMovie() {
     }
 }
 
+// GET CATEGORIES
+async function getCategories(
+    url = `${baseUrlApi}/categories`
+) {
+    const response = await axios.get(url, {
+        headers: {
+            Accept: "application/ld+json",
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    categoriesList.value = response.data["hydra:member"];
+}
+
+onMounted(() => {
+    getCategories()
+})
+
 
 </script>
+
 <template>
     <div class="modal-edit">
         <p>
@@ -110,18 +131,27 @@ async function editMovie() {
                 :placeholder="currentEditingMovie.title" />
 
             <label for="editDescription">Description:</label>
-            <textarea type="text" id="editDescription" name="editDescription" :placeholder="currentEditingMovie.description"
-                v-model="editedMovie.description"></textarea>
+            <textarea type="text" id="editDescription" name="editDescription"
+                :placeholder="currentEditingMovie.description" v-model="editedMovie.description"></textarea>
 
             <label for="editDuration">Durée (en minutes):</label>
             <input type="number" id="editDuration" name="editDuration" v-model="editedMovie.duration"
                 :placeholder="currentEditingMovie.duration" />
 
+            <label for="categories">Catégorie</label>
+            <select id="categories" v-model="editedMovie.category">
+                <option value="" disabled>Choisissez une catégorie</option>
+                <option v-for="categorie in categoriesList" :key="categorie.id" :value="categorie">{{
+                categorie.name }}
+                </option>
+            </select>
+
+
             <label for="image">Image:</label>
             <div class="container-img">
                 <img :src="originalImage" alt="">
                 <div v-if="isNewImg" class="new-image">
-                    <img src="/icons/arrow-right.png" alt="">
+                    <img src="/src/assets/icons/arrow-right.png" alt="">
                     <img :src="image" alt="">
                     <p class="delete-img-btn" @click="cancelNewImg">Annuler</p>
                 </div>
@@ -132,22 +162,25 @@ async function editMovie() {
             <button type="submit" class="edit-button">Submit</button>
 
         </form>
-        <button @click="props.handleIsModalEdit(false)" class="handle-is-modal-edit">close</button>
+        <button @click="props.handleIsModalEdit(false)" class="close-button">Fermer</button>
     </div>
 </template>
+
 <style scoped lang="scss">
 .modal-edit {
     position: fixed;
     z-index: 10;
     top: 50%;
-    transform: translateY(-50%);
+    left: 50%;
+    transform: translate(-50%, -50%);
     right: 0;
-    height: 90vh;
-    width: 50em;
-    background-color: #252525;
-    border-radius: 1em 0 0 1em;
-    color: white;
-    // padding: 2em;
+    height: 98vh;
+    width: 80vw;
+    background-color: #fbfbfb;
+    border-radius: 1em;
+    color: rgb(0, 0, 0);
+    padding: 2em;
+    overflow-y: auto;
 
     // Ajoutez ici des styles spécifiques à la modal
 
@@ -172,10 +205,10 @@ async function editMovie() {
         textarea {
             padding: 8px;
             margin-bottom: 10px;
-            border: 1px solid white;
+            border: 1px solid rgb(0, 0, 0);
             border-radius: 4px;
             background-color: transparent;
-            color: white;
+            color: rgb(0, 0, 0);
         }
 
         .container-img {
@@ -221,18 +254,18 @@ async function editMovie() {
             }
         }
 
-        .handle-is-modal-edit {
-            padding: 10px;
-            background-color: #a7b4c2; // Couleur bleue pour le bouton, ajustez selon vos besoins
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
 
-            &:hover {
-                background-color: #0056b3; // Changement de couleur au survol
-            }
-        }
+    }
+
+    .close-button {
+        position: absolute;
+        top: 1em;
+        right: 1em;
+        background-color: transparent;
+        border: none;
+        color: #555;
+        font-size: 1.2em;
+        cursor: pointer;
     }
 }
 </style>

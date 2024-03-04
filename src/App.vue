@@ -13,7 +13,7 @@ function logout() {
   localStorage.removeItem("token");
   // router.push({ name: 'login' });
   // window.location.reload();
-  window.location.href = "/";
+  window.location.href = "/login";
 }
 
 // onMounted(async () => {
@@ -29,13 +29,12 @@ function logout() {
 
 <template>
   <header class="header-home" v-if="token">
-    <div class="logo-container"><img src="/img/logo.svg" alt=""></div>
     <nav>
-      <RouterLink to="/"><img src="/icons/home.png" alt=""><span>Accueil</span></RouterLink>
-      <RouterLink to="/movies"><img src="/icons/movie.png" alt=""><span>Films</span></RouterLink>
-      <RouterLink to="/actors"><img src="/icons/actor.png" alt=""><span>Acteurs</span></RouterLink>
-      <RouterLink to="/categories"><img src="/icons/category.png" alt=""><span>Catégories</span></RouterLink>
-      <div class="logout" @click="logout()"><img src="/icons/logout.png" alt=""><span>Lougout</span></div>
+      <RouterLink to="/"><img src="/src/assets/icons/home.png" alt=""><span>Accueil</span></RouterLink>
+      <RouterLink to="/movies"><img src="/src/assets/icons/movie.png" alt=""><span>Films</span></RouterLink>
+      <RouterLink to="/actors"><img src="/src/assets/icons/actor.png" alt=""><span>Acteurs</span></RouterLink>
+      <RouterLink to="/categories"><img src="/src/assets/icons/category.png" alt=""><span>Catégories</span></RouterLink>
+      <div class="logout" @click="logout()"><img src="/src/assets/icons/logout.png" alt=""><span>Lougout</span></div>
     </nav>
   </header>
   <div class="main">
