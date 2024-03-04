@@ -28,19 +28,24 @@ onMounted(() => {
 async function fetchData(
   url = `${baseUrlApi}/movies?page=${page.value}`
 ) {
-  isLoaded.value = false;
-  const response = await axios.get(url, {
-    headers: {
-      Accept: "application/ld+json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  data.value = response.data["hydra:member"];
-  completeData.value = response.data["hydra:member"];
-  nextPageUrl.value =
-    baseUrlApi + response.data["hydra:view"]["hydra:next"];
-  pagesTotal.value = response.data["hydra:view"]["hydra:last"].split("=")[1];
-  isLoaded.value = true;
+  try {
+    isLoaded.value = false;
+    const response = await axios.get(url, {
+      headers: {
+        Accept: "application/ld+json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    data.value = response.data["hydra:member"];
+    completeData.value = response.data["hydra:member"];
+    nextPageUrl.value =
+      baseUrlApi + response.data["hydra:view"]["hydra:next"];
+    pagesTotal.value = response.data["hydra:view"]["hydra:last"].split("=")[1];
+    isLoaded.value = true;
+  } catch (error) {
+    console.error(error);
+    window.location.href = "/";
+  }
 }
 
 

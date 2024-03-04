@@ -67,6 +67,7 @@ async function fetchrandomActors() {
       "Erreur lors de la récupération des données de la deuxième API:",
       error
     );
+    window.location.href = "/";
   }
 }
 
