@@ -59,7 +59,7 @@ onMounted(async () => {
   </div>
 
   <div class="loader-container" v-else>
-    <pulse-loader :loading="loading" color="orange" :size="size"></pulse-loader>
+    <pulse-loader  color="#A76571" ></pulse-loader>
   </div>
 </template>
 

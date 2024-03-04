@@ -49,7 +49,7 @@ async function deleteActor() {
     <div class="actor-movie-list">
       <!-- <p v-for="movie in actor.movies">{{ movie.title }}</p> -->
       <RouterLink v-for="movie in actor.movies" :to="{ name: 'movieDetails', params: { id: movie.id } }"
-        v-if="!detailsPage" class="link">
+         class="link">
         {{ movie.title }}
       </RouterLink>
     </div>

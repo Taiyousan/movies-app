@@ -116,7 +116,7 @@ function handleIsModalEdit(bool) {
     <p>Aucun résultat !</p>
   </div>
   <div class="loader-container" v-if="!isLoaded">
-    <pulse-loader :loading="loading" color="orange" :size="size"></pulse-loader>
+    <pulse-loader color="#A76571" ></pulse-loader>
   </div>
 </template>
 
