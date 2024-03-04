@@ -7,9 +7,6 @@ const { actor, fetchData } = defineProps(["actor", "fetchData"]);
 const baseUrlApi = import.meta.env.VITE_BASE_URL_API
 const token = localStorage.getItem("token")
 
-onMounted(() => {
-  console.log(actor)
-})
 
 async function deleteActor() {
   const actorId = actor["@id"].split("/").pop()
@@ -30,116 +27,83 @@ async function deleteActor() {
 </script>
 
 <template>
-  <!-- <div class="actor-card">
-    <div class="actor-header">
-      <h2>{{ actor.firstName }} {{ actor.lastName }}</h2>
-    </div>
-    <ul class="actor-movies">
-      <li v-for="movie in actor.movies">{{ movie.title }}</li>
-    </ul>
-  </div> -->
   <div class="actor-card">
+    <div class="actor-content">
+      <div class="actor-header">
+        <h2>{{ actor.firstName }} {{ actor.lastName }}</h2>
+      </div>
+      <div class="actor-details">
+        <p v-if="actor.nationality.name" class="actor-nationality">{{ actor.nationality.name }}</p>
+        <div class="actor-movie-list">
+          <router-link v-for="movie in actor.movies" :to="{ name: 'movieDetails', params: { id: movie.id } }"
+            class="movie-link" :key="movie.id">
+            {{ movie.title }}
+          </router-link>
+        </div>
+      </div>
+    </div>
     <div class="delete" @click="deleteActor">Supprimer</div>
-    <div class="actor-name">
-      <p>{{ actor.firstName }} {{ actor.lastName }}</p>
-    </div>
-    <div class="actor-nationality" v-if="actor.nationality.name">
-      <p>{{ actor.nationality.name }}</p>
-    </div>
-    <div class="actor-movie-list">
-      <!-- <p v-for="movie in actor.movies">{{ movie.title }}</p> -->
-      <RouterLink v-for="movie in actor.movies" :to="{ name: 'movieDetails', params: { id: movie.id } }"
-        v-if="!detailsPage" class="link">
-        {{ movie.title }}
-      </RouterLink>
-    </div>
   </div>
 </template>
 
-<style scoped lang="scss">
+<style scoped>
 .actor-card {
-  min-height: 25em;
   width: 15em;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  align-self: start;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin: 1em;
+}
 
-  .actor-img {
-    height: 12em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.actor-content {
+  padding: 1.5em;
+}
 
-    img {
-      border-radius: 50%;
-      width: 8em;
-      height: 8em;
-      object-fit: cover;
-    }
-  }
+.actor-header {
+  text-align: center;
+  margin-bottom: 1em;
+}
 
-  .delete {
-    height: 2em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+.actor-header h2 {
+  font-size: 1.2em;
+  margin: 0;
+}
 
-    color: white;
-    font-size: 0.8em;
-    background-color: rgb(211, 0, 0);
-    border-radius: 20px;
-    padding: 1em 5em;
+.actor-details {
+  font-size: 0.9em;
+}
 
-    margin: 1em;
+.actor-nationality {
+  color: #666;
+  margin-bottom: 1em;
+}
 
-    cursor: pointer;
-  }
+.actor-movie-list {
+  display: flex;
+  flex-direction: column;
+}
 
-  .actor-name {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+.movie-link {
+  color: #007bff;
+  text-decoration: none;
+  margin-bottom: 0.5em;
+  transition: color 0.3s ease;
+}
 
-    color: white;
-    font-size: 0.8em;
+.movie-link:hover {
+  color: #0056b3;
+}
 
-    margin: 1em;
+.delete {
+  background-color: #d9534f;
+  color: white;
+  text-align: center;
+  padding: 0.5em 0;
+  cursor: pointer;
+}
 
-    p {
-      // background-color: rgba(0, 0, 0, 0.436);
-      background-color: #A76571;
-      border-radius: 20px;
-      padding: 1em 5em;
-    }
-  }
-
-  .actor-nationality {
-    height: 2em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-
-    font-size: 0.65em;
-
-    p {
-      margin-top: 1em;
-    }
-  }
-
-  .actor-movie-list {
-    font-size: 0.7em;
-    margin-top: 1em;
-    display: flex;
-    flex-direction: column;
-
-    a {
-      padding: 1em;
-      color: #55868C;
-      font-weight: bold;
-      text-decoration: none;
-    }
-  }
+.delete:hover {
+  background-color: #c9302c;
 }
 </style>

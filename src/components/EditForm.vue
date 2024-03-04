@@ -34,7 +34,6 @@ const cancelNewImg = () => {
     isNewImg.value = false
     editedMovie.value.image = ''
     image.value = props.currentEditingMovie.image ? originalImage : "img/placeholder.png"
-    console.log('originalImage', originalImage);
 }
 
 async function addImageToDb() {

@@ -5,7 +5,7 @@ import axios from "axios";
 
 // Définissez les propriétés reçues de la Card
 const { movie, detailsPage, canEdit, fetchData } = defineProps(["movie", "detailsPage", "canEdit", "fetchData"]);
-const baseUrl= import.meta.env.VITE_BASE_URL;
+const baseUrl = import.meta.env.VITE_BASE_URL;
 const baseUrlApi = import.meta.env.VITE_BASE_URL_API;
 const token = localStorage.getItem("token");
 // Définissez les événements que vous prévoyez d'émettre
@@ -41,7 +41,7 @@ async function deleteMovie(id) {
         <div class="info">
           <p class="info-libelle">Synopsis </p>
           <p class="info-text">{{ movie.description.length > 75 ? movie.description.slice(0, 75) + '...' :
-            movie.description }}</p>
+      movie.description }}</p>
         </div>
         <div class="info">
           <p class="info-libelle">Date de sortie </p>
@@ -106,7 +106,7 @@ async function deleteMovie(id) {
     align-items: center;
     width: 100%;
     padding: 1em;
-    background-color: #A76571;
+    background-color: #55868C;
     text-transform: uppercase;
     font-weight: bold;
     text-align: center;
@@ -130,7 +130,7 @@ async function deleteMovie(id) {
         padding-bottom: 0.5em;
         font-size: 0.9em;
         width: 50%;
-        border-bottom: 1px solid #A76571;
+        border-bottom: 1px solid #55868C;
       }
 
       .info-text {
@@ -184,7 +184,7 @@ async function deleteMovie(id) {
       display: inline-block;
       text-decoration: none;
       color: white;
-      background-color: #A76571;
+      background-color: #55868C;
       padding: 10px 20px;
       border-radius: 8px;
       transition: background-color 0.3s, transform 0.2s;

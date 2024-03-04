@@ -59,7 +59,7 @@ onMounted(async () => {
   </div>
 
   <div class="loader-container" v-else>
-    <pulse-loader :loading="loading" color="orange" :size="size"></pulse-loader>
+    <pulse-loader color="#55868C"></pulse-loader>
   </div>
 </template>
 
@@ -72,7 +72,7 @@ onMounted(async () => {
     font-size: 2em;
     font-weight: bold;
     text-transform: uppercase;
-    background-color: #A76571;
+    background-color: #55868C;
     padding: 1em;
     border-radius: 8px;
     color: white;
@@ -134,7 +134,7 @@ onMounted(async () => {
       font-size: 1em;
       font-weight: bold;
       text-transform: uppercase;
-      background-color: #A76571;
+      background-color: #55868C;
       padding: 1em;
       border-radius: 8px;
       color: white;

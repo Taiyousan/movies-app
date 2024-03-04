@@ -52,7 +52,6 @@ async function postActor() {
                 Authorization: `Bearer ${token}`,
             },
         });
-        console.log(response);
         emit("close", true);
         isError.value = false;
         fetchData();
