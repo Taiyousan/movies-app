@@ -43,37 +43,44 @@ function toggleAddActor() {
   </div>
 </template>
 
-<style scoped lang="scss">
-.gallery {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin: 2em auto;
-  gap: 2em;
-  padding: 2em;
-  max-width: 1200px; // Adaptez en fonction de la largeur désirée
-  // background-color: #f4f4f4; // Une couleur de fond légère pour contraster avec les cartes
-  border-radius: 12px;
-  // box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-}
-
+<style scoped>
 .crud {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 2em;
-  gap: 1em;
+  margin: 2em 0;
+}
 
-  .addActor {
-    width: 10em;
-    height: 3em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #55868C;
-    color: white;
-    border-radius: 8px;
-    cursor: pointer;
+.addActor {
+  width: 10em;
+  height: 3em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #55868C;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.addActor:hover {
+  background-color: #3d6c72;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .gallery {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
 }
 </style>
